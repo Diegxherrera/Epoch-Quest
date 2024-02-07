@@ -27,13 +27,8 @@ public abstract class Character {
 }
 
 enum CharacterKind {
-    EMPEROR,
-    ACTOR,
+    IDIOLOGIST,
     PRESIDENT,
-    BUSINESSMAN,
-    SCIENTIST,
-    PHILOSOPHER,
-    PLAYER
 }
 
 class Player extends Character {
