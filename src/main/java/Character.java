@@ -5,14 +5,13 @@ public abstract class Character {
     private int health;
     private int strength;
     private int defense;
-    private int receivedDamage;
 
     public Character() {
-
+        // TODO Initialize character by its sons.
     }
 
     public void attack() {
-
+        // TODO Generate a
     }
 
     public void defend() {
@@ -27,16 +26,16 @@ public abstract class Character {
 }
 
 enum CharacterKind {
-    IDIOLOGIST,
+    IDEOLOGIST,
     PRESIDENT,
 }
 
 class Player extends Character {
-    private Inventory inventory;
+    private Inventory personalInventory;
     private Weapon currentWeapon;
 
     public Player(Inventory i, Weapon cW) {
-        this.inventory = i;
+        this.personalInventory = i;
         this.currentWeapon = cW;
     }
 

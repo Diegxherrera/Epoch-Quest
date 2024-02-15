@@ -1,3 +1,5 @@
+package gameframe;
+
 public class World {
     Map[] maps;
     private Map currentMap;
@@ -10,6 +12,10 @@ public class World {
     public Map nextMap() {
         return new Map();
     }
+
+    public Map getCurrentMap() {
+        return  currentMap;
+    }
 }
 
 enum HistoryEra {
@@ -17,3 +23,4 @@ enum HistoryEra {
     SPANISH_CIVIL_WAR,
     USA_CIVIL_WAR,
 }
+

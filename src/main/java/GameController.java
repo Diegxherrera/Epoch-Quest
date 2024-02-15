@@ -1,11 +1,15 @@
+import gameframe.Map;
+import gameframe.World;
+
 public class GameController {
     private Player currentPlayer;
+    private Enemy currentEnemy;
     private Map currentMap;
     private World availableMaps;
     //TODO Research and add GameState to the GameController.
 
     public void startGame() {
-
+        loadGame();
     }
 
     public void endGame() {

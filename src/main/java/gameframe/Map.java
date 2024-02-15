@@ -1,3 +1,5 @@
+package gameframe;
+
 public class Map {
     private World world;
     private String location;

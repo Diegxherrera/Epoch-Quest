@@ -38,3 +38,7 @@ class Item {
 class Weapon extends Item{
 
 }
+
+class Potion extends Item {
+
+}
