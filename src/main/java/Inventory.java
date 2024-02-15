@@ -23,7 +23,6 @@ public class Inventory {
 
 class Item {
     private String name;
-    private CharacterKind kind;
     private int value;
 
     private void use() {

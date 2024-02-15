@@ -22,7 +22,7 @@ public class DatabaseManager {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
             String sqlQuery = "SELECT " + requestedContent + " FROM " + requestedSource.toString() +
-                    " WHERE currentMap='" + World.getCurrentMap().toString() + "'";
+                    " WHERE currentMap='" + "'";
             ResultSet resultSet = statement.executeQuery(sqlQuery);
 
             String data;
