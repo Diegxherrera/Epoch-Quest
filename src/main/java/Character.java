@@ -31,8 +31,8 @@ enum CharacterKind {
 }
 
 class Player extends Character {
-    private Inventory personalInventory;
-    private Weapon currentWeapon;
+    private final Inventory personalInventory;
+    private final Weapon currentWeapon;
 
     public Player(Inventory i, Weapon cW) {
         this.personalInventory = i;
