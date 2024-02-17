@@ -36,12 +36,14 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             if (e.getMessage().contains("No suitable driver was found.")) {
-                logger.error(e);
+                //TODO Add Log4J to manage errors: logger.error(e);
             }
-
-            DBFrame.showStoryFrame();
+            //TODO
         }
         return "resultSet is not working as expected";
+    }
+
+    public void setDependencies(DIContainer diContainer) {
     }
 }
 

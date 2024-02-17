@@ -10,6 +10,7 @@ public class DIContainer {
     // Member variables holding the instances of various components
     private final DatabaseManager databaseManager;
     private final GameController gameController;
+    private final GameFrame gameFrame;
     //private final gameframe.GameFrame gameFrame; TODO Implement Game Frame dev. by Alejo
 
     /**
@@ -19,13 +20,13 @@ public class DIContainer {
      * for each of these components, linking them together for coordinated functioning.
      */
     public DIContainer() {
-        this.gameController = new GameController(this);
-        this.databaseManager = new DatabaseManager(this);
-        this.gameFrame = new GameFrame(this);
+        this.gameController = new GameController();
+        this.databaseManager = new DatabaseManager();
+        this.gameFrame = new GameFrame();
 
         this.gameController.setDependencies(this);
         this.databaseManager.setDependencies(this);
-        this.gameFrame.setDependencies(this);
+       // this.gameFrame.setDependencies(this);
     }
 
     /**

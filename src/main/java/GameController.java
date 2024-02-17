@@ -27,4 +27,8 @@ public class GameController {
     private void handleInput() {
         //TODO Investigate on how to handle user input and classes inputs.
     }
+
+    public void setDependencies(DIContainer diContainer) {
+
+    }
 }
