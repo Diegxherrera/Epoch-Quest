@@ -1,4 +1,4 @@
-package gameframe.main;
+package gui.main;
 
 import javax.swing.*;
 

@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 
 public class Inventory {
@@ -82,24 +84,3 @@ abstract class Item {
     }
 }
 
-class Weapon extends Item {
-    public Weapon(String name, int value) {
-        super(name, value);
-    }
-
-    @Override
-    void use() {
-
-    }
-}
-
-class Potion extends Item {
-    public Potion(String name, int value) {
-        super(name, value);
-    }
-
-    @Override
-    void use() {
-        System.out.println("Drinking " + getName());
-    }
-}

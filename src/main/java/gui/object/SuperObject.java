@@ -1,6 +1,6 @@
-package gameframe.object;
+package gui.object;
 
-import gameframe.main.GamePanel;
+import gui.main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

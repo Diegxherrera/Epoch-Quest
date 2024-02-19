@@ -1,8 +1,8 @@
-package gameframe.main;
+package gui.main;
 
-import gameframe.object.OBJ_Chest;
-import gameframe.object.OBJ_Door;
-import gameframe.object.OBJ_Key;
+import gui.object.OBJ_Chest;
+import gui.object.OBJ_Door;
+import gui.object.OBJ_Key;
 public class AssetSetter {
 
     GamePanel gp;

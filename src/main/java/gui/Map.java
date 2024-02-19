@@ -1,4 +1,4 @@
-package gameframe;
+package gui;
 
 public class Map {
     private World world;

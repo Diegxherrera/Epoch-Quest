@@ -1,17 +1,22 @@
-import gameframe.World;
+package utils;
+
+import gui.GameFrame;
 
 import java.sql.*;
 
 public class DatabaseManager {
+    private final DIContainer container;
+    private GameController DBController;
+    private GameFrame DBFrame;
 
     /**
      * This function runs the query to the SQL database using the requestedContent and
      * then returns it in a String. Setting up the query requires of url, username and
      * password to effectively run the Connection making an instance of connection from
      * the JDBC connector
-     * @param requestedContent
+     * @param requestedContent Content requested to run the query
      * @return Data retrieved in String type
-     * @throws SQLException
+     * @throws SQLException Exception thrown whenever the DB is malfunctioning.
      */
     public String retrieveDataFromDatabase(String requestedContent, DataSource requestedSource)  {
         String url = "jdbc:mysql://localhost:3306/EpochQuest";
@@ -43,7 +48,15 @@ public class DatabaseManager {
         return "resultSet is not working as expected";
     }
 
-    public void setDependencies(DIContainer diContainer) {
+    public DatabaseManager(DIContainer container) {
+        this.container = container;
+        this.DBController = container.getGameController();
+        this.DBFrame = container.getGameFrame();
+    }
+
+    public void setDependencies(DIContainer container) {
+        this.DBFrame = container.getGameFrame();
+        this.DBController = container.getGameController();
     }
 }
 

@@ -1,6 +1,6 @@
-package gameframe.main;
+package gui.main;
 
-import gameframe.entity.Entity;
+import gui.entity.Entity;
 
 public class CollisionChecker {
     GamePanel gp;

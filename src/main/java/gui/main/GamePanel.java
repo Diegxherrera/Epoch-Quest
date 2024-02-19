@@ -1,8 +1,8 @@
-package gameframe.main;
+package gui.main;
 
-import gameframe.entity.Player;
-import gameframe.object.SuperObject;
-import gameframe.tile.TileManager;
+import gui.entity.Player;
+import gui.object.SuperObject;
+import gui.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;

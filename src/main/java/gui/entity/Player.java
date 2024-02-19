@@ -1,7 +1,7 @@
-package gameframe.entity;
+package gui.entity;
 
-import gameframe.main.GamePanel;
-import gameframe.main.KeyHandler;
+import gui.main.GamePanel;
+import gui.main.KeyHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

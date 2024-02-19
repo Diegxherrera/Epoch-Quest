@@ -1,4 +1,4 @@
-package gameframe.entity;
+package gui.entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

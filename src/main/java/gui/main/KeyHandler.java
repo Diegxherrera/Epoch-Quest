@@ -1,4 +1,4 @@
-package gameframe.main;
+package gui.main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

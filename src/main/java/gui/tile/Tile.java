@@ -1,4 +1,4 @@
-package gameframe.tile;
+package gui.tile;
 
 import java.awt.image.BufferedImage;
 

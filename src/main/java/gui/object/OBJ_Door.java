@@ -1,4 +1,4 @@
-package gameframe.object;
+package gui.object;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
