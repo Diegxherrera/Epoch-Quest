@@ -1,6 +1,6 @@
 package gameframe.main;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,6 +18,7 @@ public class Main {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+        gamePanel.setupGame();
         gamePanel.startGameThread();
 
 
