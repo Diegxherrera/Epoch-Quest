@@ -25,7 +25,9 @@ public class TileManager {
     }
 
     public void getTileImage(){
+
         try {
+
             tile[0]= new Tile();
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png"));
 
@@ -47,9 +49,14 @@ public class TileManager {
             tile[5]= new Tile();
             tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/sand.png"));
 
+
+
+
         }catch (IOException e){
             e.printStackTrace();
         }
+
+
     }
     public void loadMap(String filePath){
         try {
@@ -58,8 +65,8 @@ public class TileManager {
 
             int col = 0;
             int row = 0;
-
             while (col < gp.maxWorldCol && row < gp.maxWorldRow){
+
                 String line = br.readLine();
 
                 while (col < gp.maxWorldCol){
@@ -69,24 +76,31 @@ public class TileManager {
 
                     mapTileNum[col][row] = num;
                     col++;
-                }
 
+                }
                 if (col == gp.maxWorldCol){
                     col = 0;
                     row++;
                 }
+
             }
             br.close();
 
         }catch (Exception e){
             e.printStackTrace();
+
+
         }
     }
     public void draw(Graphics2D g2){
+
         int worldCol = 0;
         int worldRow = 0;
 
+
+
         while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow){
+
             int tileNum = mapTileNum[worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
@@ -102,6 +116,7 @@ public class TileManager {
                 g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             }
 
+
             worldCol++;
 
             if (worldCol == gp.maxWorldCol){
@@ -109,6 +124,13 @@ public class TileManager {
                 worldRow++;
 
             }
+
+
+
+
         }
+
     }
+
+
 }
