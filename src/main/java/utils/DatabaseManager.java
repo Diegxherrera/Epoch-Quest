@@ -7,7 +7,6 @@ import java.sql.*;
 public class DatabaseManager {
     private final DIContainer container;
     private GameController DBController;
-    private GameFrame DBFrame;
 
     /**
      * This function runs the query to the SQL database using the requestedContent and
@@ -52,11 +51,9 @@ public class DatabaseManager {
     public DatabaseManager(DIContainer container) {
         this.container = container;
         this.DBController = container.getGameController();
-        this.DBFrame = container.getGameFrame();
     }
 
     public void setDependencies(DIContainer container) {
-        this.DBFrame = container.getGameFrame();
         this.DBController = container.getGameController();
     }
 }

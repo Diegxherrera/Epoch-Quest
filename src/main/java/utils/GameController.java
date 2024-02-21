@@ -21,7 +21,6 @@ public class GameController {
 
     public GameController(DIContainer container) {
         this.container = container;
-        this.controllerFrame = container.getGameFrame();
         this.controllerDB = container.getDatabaseManager();
     }
     //TODO Research and add GameState to the utils.GameController.

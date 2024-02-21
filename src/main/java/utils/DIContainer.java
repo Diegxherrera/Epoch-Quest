@@ -1,6 +1,8 @@
 package utils;
 
 import gui.GameFrame;
+import gui.main.KeyHandler;
+import gui.main.UI;
 
 /**
  * The utils.DIContainer class serves as a Dependency Injection container for the application.
@@ -12,7 +14,8 @@ public class DIContainer {
     // Member variables holding the instances of various components
     private final DatabaseManager databaseManager;
     private final GameController gameController;
-    private final GameFrame gameFrame;
+    private final KeyHandler keyHandler;
+    private final UI ui;
 
     /**
      * Constructs a new utils.DIContainer.
@@ -20,14 +23,16 @@ public class DIContainer {
      * namely utils.DatabaseManager, utils.GameController, and gameframe.GameFrame. It also sets the dependencies
      * for each of these components, linking them together for coordinated functioning.
      */
-    public DIContainer() {
+    public DIContainer(KeyHandler keyHandler) {
         this.gameController = new GameController(this);
         this.databaseManager = new DatabaseManager(this);
-        this.gameFrame = new GameFrame(this);
+        this.keyHandler = new KeyHandler(this);
+        this.ui = new UI(this);
 
         this.gameController.setDependencies(this);
         this.databaseManager.setDependencies(this);
-        this.gameFrame.setDependencies(this);
+        this.keyHandler.setDependencies(this);
+        this.ui.setDependencies(this);
     }
 
     /**
@@ -49,11 +54,17 @@ public class DIContainer {
     }
 
     /**
-     * Retrieves the gameframe.GameFrame instance.
+     * Retrieves the UI instance.
      *
-     * @return The current instance of gameframe.GameFrame.
+     * @return The current instance of UI.
      */
-    public GameFrame getGameFrame() {
-        return gameFrame;
+
+    public UI getUI() {
+        return ui;
     }
+
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
+    }
+
 }

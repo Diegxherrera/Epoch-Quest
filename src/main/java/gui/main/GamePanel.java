@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
-
     //Screen settings
     final int originalTileSize = 16; // 16x16 tiles size
     final int scale = 3;
@@ -43,18 +42,15 @@ public class GamePanel extends JPanel implements Runnable{
     public final int playState = 1;
     public final int pauseState = 2;
 
-
-
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-
     }
     public void setupGame() {
-//        aSetter.setObject();
+        // aSetter.setObject();
         playMusic(0);
         gameState = playState;
     }
@@ -81,11 +77,8 @@ public class GamePanel extends JPanel implements Runnable{
             lastTime = currentTime;
 
             if (delta >= 1) {
-
-
                 //Update
                 update();
-
 
                 //Draw
                 repaint();
@@ -97,9 +90,7 @@ public class GamePanel extends JPanel implements Runnable{
                 drawCount=0;
                 timer=0;
             }
-
         }
-
     }
 
     public void update(){
@@ -110,17 +101,15 @@ public class GamePanel extends JPanel implements Runnable{
             //nothing for now
 
         }
-
     }
     public void paintComponent(Graphics g){
-
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
 
         //Debug
         long drawStart = 0;
-        if (keyH.checkDrawTime == true) {
+        if (keyH.checkDrawTime) {
             drawStart = System.nanoTime();
         }
 
@@ -137,7 +126,7 @@ public class GamePanel extends JPanel implements Runnable{
         //UI
         ui.draw(g2);
         //Debug
-        if (keyH.checkDrawTime == true) {
+        if (keyH.checkDrawTime) {
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
             g2.setColor(Color.white);
@@ -147,17 +136,19 @@ public class GamePanel extends JPanel implements Runnable{
 
         g2.dispose();
     }
+
     public void playMusic(int i){
         music.setFile(i);
         music.play();
         music.loop();
     }
+
     public void stopMusic(){
         music.stop();
     }
+
     public void playSE(int i){
         se.setFile(i);
         se.play();
     }
-
 }
