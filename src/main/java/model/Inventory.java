@@ -67,16 +67,22 @@ public class Inventory {
 abstract class Item {
     private final String name;
     private final int value;
+    private final String imagePath;
 
-    public Item(String name, int value) {
+    public Item(String name, int value, String imagePath) {
         this.name = name;
         this.value = value;
+        this.imagePath = imagePath;
     }
 
     abstract void use();
 
     String inspectItem() {
         return "Name: " + name + "\n Value: " + value;
+    }
+
+    String getItemImage() {
+        return imagePath;
     }
 
     public String getName() {

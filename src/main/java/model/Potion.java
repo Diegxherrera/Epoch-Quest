@@ -1,8 +1,8 @@
 package model;
 
 public class Potion extends Item {
-    public Potion(String name, int value) {
-        super(name, value);
+    public Potion(String name, int value, String imagePath) {
+        super(name, value, imagePath);
     }
 
     @Override

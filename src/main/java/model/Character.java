@@ -1,5 +1,8 @@
 package model;
 
+import model.Weapon;
+import utils.GameController;
+
 public abstract class Character {
     private String name;
     private int level;
@@ -13,7 +16,6 @@ public abstract class Character {
     }
 
     public void attack() {
-        // TODO Generate a
     }
 
     public void defend() {

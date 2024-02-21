@@ -43,11 +43,12 @@ public class DatabaseManager {
             if (e.getMessage().contains("No suitable driver was found.")) {
                 //TODO Add Log4J to manage errors: logger.error(e);
             }
-            //TODO
         }
+
         return "resultSet is not working as expected";
     }
 
+    // Dependency Injection methods
     public DatabaseManager(DIContainer container) {
         this.container = container;
         this.DBController = container.getGameController();
@@ -64,5 +65,8 @@ enum DataSource {
     ENEMIES,
     PLAYERS,
     MAPS,
-    WORLDS
+    WORLDS,
+    WEAPONS,
+    POTIONS,
+    KEYS
 }

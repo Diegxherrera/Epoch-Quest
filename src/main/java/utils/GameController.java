@@ -35,26 +35,7 @@ public class GameController {
     }
 
     private void loadGame() {
-        getWeapons();
-        getPotions();
-        getMaps();
-        getCharacters();
-    }
-
-    private void getCharacters() {
-
-    }
-
-    private void getMaps() {
-
-    }
-
-    private void getPotions() {
-
-    }
-
-    private void getWeapons() {
-
+        //TODO Load all the assets, weapons, potions and characters from DB before starting game.
     }
 
     private void saveGame() {

@@ -1,9 +1,5 @@
 package model;
 
-import model.Character;
-import model.Inventory;
-import model.Weapon;
-
 public class Player extends Character {
     private final Inventory personalInventory;
     private final Weapon currentWeapon;
@@ -15,12 +11,12 @@ public class Player extends Character {
         this.currentWeapon = cW;
     }
 
-    public void takeItem() {
-
+    public void takeItem(Item item) {
+        this.personalInventory.addItem(item);
     }
 
     public void dropItem() {
-
+        this.personalInventory.dropItem();
     }
 
     public void levelUp() {

@@ -5,11 +5,11 @@ import gui.main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class TileManager {
 
@@ -27,7 +27,8 @@ public class TileManager {
     }
 
     public void getTileImage(){
-        //No borrar los primeros diez, son para que despues al dibujar en el txt sea mas facil el posicionamiento y el progrma no se lie entre numeros de 1 cifra y de 2 cifras
+        //No borrar los primeros diez, son para que después al dibujar en el txt sea más fácil el posicionamiento y el
+        // programa no se equivoque entre numeros de 1 cifra y de 2 cifras
         //PlaceHolder
             setUp(0,"grass00", false);
             setUp(1,"grass00", false);
@@ -72,14 +73,13 @@ public class TileManager {
             setUp(39,"earth", false);
             setUp(40,"wall", true);
             setUp(41,"tree", true);
-
-
     }
+
     public void setUp(int index, String imageName, boolean collision){
         UtilityTool uTool = new UtilityTool();
         try {
             tile[index] = new Tile();
-            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/tiles/"+ imageName + ".png"));
+            tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + imageName + ".png")));
             tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
             tile[index].collision = collision;
         }catch (IOException e){
@@ -89,46 +89,37 @@ public class TileManager {
     public void loadMap(String filePath){
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
-            BufferedReader br =new BufferedReader(new InputStreamReader(is));
+            assert is != null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
             int row = 0;
             while (col < gp.maxWorldCol && row < gp.maxWorldRow){
-
                 String line = br.readLine();
 
                 while (col < gp.maxWorldCol){
-                    String numbers[] = line.split(" ");
-
+                    String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
-
                     mapTileNum[col][row] = num;
                     col++;
-
                 }
+
                 if (col == gp.maxWorldCol){
                     col = 0;
                     row++;
                 }
-
             }
             br.close();
 
         }catch (Exception e){
             e.printStackTrace();
-
-
         }
     }
     public void draw(Graphics2D g2){
-
         int worldCol = 0;
         int worldRow = 0;
 
-
-
         while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow){
-
             int tileNum = mapTileNum[worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
@@ -144,21 +135,12 @@ public class TileManager {
                 g2.drawImage(tile[tileNum].image, screenX, screenY, null);
             }
 
-
             worldCol++;
 
             if (worldCol == gp.maxWorldCol){
                 worldCol = 0;
                 worldRow++;
-
             }
-
-
-
-
         }
-
     }
-
-
 }

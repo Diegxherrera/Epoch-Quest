@@ -13,7 +13,6 @@ public class DIContainer {
     private final DatabaseManager databaseManager;
     private final GameController gameController;
     private final GameFrame gameFrame;
-    //private final gameframe.GameFrame gameFrame; TODO Implement Game Frame dev. by Alejo
 
     /**
      * Constructs a new utils.DIContainer.
