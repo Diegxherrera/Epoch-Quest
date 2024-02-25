@@ -9,7 +9,7 @@ public class KeyHandler implements KeyListener {
     private DIContainer container;
     private UI keyHandlerUi;
     GamePanel gp;
-    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
     //Debug
     boolean checkDrawTime = false;
     int index = 0;
@@ -32,80 +32,142 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-
-        switch (code) {
-            case KeyEvent.VK_W:
-                upPressed = true;
-                break;
-            case KeyEvent.VK_S:
-                downPressed = true;
-                break;
-            case KeyEvent.VK_A:
-                leftPressed = true;
-                break;
-            case KeyEvent.VK_D:
-                rightPressed = true;
-                break;
-            case KeyEvent.VK_0:
-                index = 9;
-                break;
-            case KeyEvent.VK_1:
-                index = 0;
-                break;
-            case KeyEvent.VK_2:
-                index = 1;
-                break;
-            case KeyEvent.VK_3:
-                index = 2;
-                break;
-            case KeyEvent.VK_4:
-                index = 3;
-                break;
-            case KeyEvent.VK_5:
-                index = 4;
-                break;
-            case KeyEvent.VK_6:
-                index = 5;
-                break;
-            case KeyEvent.VK_7:
-                index = 6;
-                break;
-            case KeyEvent.VK_8:
-                index = 7;
-                break;
-            case KeyEvent.VK_9:
-                index = 8;
-                break;
-
-            default:
-                break;
+        //Title State
+        if (gp.gameState == gp.titleState){
+            if (gp.ui.titleScreenState == 0) {
+                if (code == KeyEvent.VK_W) {
+                    gp.ui.commandNum--;
+                    if (gp.ui.commandNum < 0) {
+                        gp.ui.commandNum = 2;
+                    }
+                }
+                if (code == KeyEvent.VK_S) {
+                    gp.ui.commandNum++;
+                    if (gp.ui.commandNum > 2) {
+                        gp.ui.commandNum = 0;
+                    }
+                }
+                if (code == KeyEvent.VK_ENTER) {
+                    if (gp.ui.commandNum == 0) {
+                        gp.ui.titleScreenState = 1;
+                    }
+                    if (gp.ui.commandNum == 1) {
+                        //Add later
+                    }
+                    if (gp.ui.commandNum == 2) {
+                        System.exit(0);
+                    }
+                }
+            }
+            else if (gp.ui.titleScreenState == 1) {
+                if (code == KeyEvent.VK_W) {
+                    gp.ui.commandNum--;
+                    if (gp.ui.commandNum < 0) {
+                        gp.ui.commandNum = 3;
+                    }
+                }
+                if (code == KeyEvent.VK_S) {
+                    gp.ui.commandNum++;
+                    if (gp.ui.commandNum > 3) {
+                        gp.ui.commandNum = 0;
+                    }
+                }
+                if (code == KeyEvent.VK_ENTER) {
+                    if (gp.ui.commandNum == 0) {   //Picking a fighter
+                        gp.gameState = gp.playState;
+                        gp.playMusic(0);
+                    }
+                    if (gp.ui.commandNum == 1) {  //Picking a thief
+                        gp.gameState = gp.playState;
+                        gp.playMusic(0);
+                    }
+                    if (gp.ui.commandNum == 2){  //Picking a sorcerer
+                        gp.gameState = gp.playState;
+                        gp.playMusic(0);
+                    }
+                    if (gp.ui.commandNum == 3) {
+                        gp.ui.titleScreenState =0;
+                    }
+                }
+            }
         }
 
-        if (index != -1) {
-            keyHandlerUi.selectSlot(index);
-        }
+        if (gp.gameState == gp.playState) {
+            switch (code) {
+                case KeyEvent.VK_W:
+                    upPressed = true;
+                    break;
+                case KeyEvent.VK_S:
+                    downPressed = true;
+                    break;
+                case KeyEvent.VK_A:
+                    leftPressed = true;
+                    break;
+                case KeyEvent.VK_D:
+                    rightPressed = true;
+                    break;
+//                case KeyEvent.VK_0:
+//                    index = 9;
+//                    break;
+//                case KeyEvent.VK_1:
+//                    index = 0;
+//                    break;
+//                case KeyEvent.VK_2:
+//                    index = 1;
+//                    break;
+//                case KeyEvent.VK_3:
+//                    index = 2;
+//                    break;
+//                case KeyEvent.VK_4:
+//                    index = 3;
+//                    break;
+//                case KeyEvent.VK_5:
+//                    index = 4;
+//                    break;
+//                case KeyEvent.VK_6:
+//                    index = 5;
+//                    break;
+//                case KeyEvent.VK_7:
+//                    index = 6;
+//                    break;
+//                case KeyEvent.VK_8:
+//                    index = 7;
+//                    break;
+//                case KeyEvent.VK_9:
+//                    index = 8;
+//                    break;
+                case KeyEvent.VK_ENTER:
+                    enterPressed = true;
+                    break;
+            }
 
-        if (code == KeyEvent.VK_A){
-            leftPressed = true;
-        }
-
-        if (code == KeyEvent.VK_D){
-            rightPressed= true;
-        }
-
-        if (code == KeyEvent.VK_ESCAPE){
-            if (gp.gameState == gp.playState){
+//            if (index != -1) {
+//                keyHandlerUi.selectSlot(index);
+//            }
+            if (code == KeyEvent.VK_ESCAPE) {
                 gp.gameState = gp.pauseState;
-            } else if (gp.gameState == gp.pauseState) {
+            }
+
+            //Debug
+            if (code == KeyEvent.VK_T) {
+                if (!checkDrawTime) {
+                    checkDrawTime = true;
+                } else if (checkDrawTime) {
+                    checkDrawTime = false;
+                }
+
+            }
+        }
+        //Pause State
+       else if (gp.gameState == gp.pauseState){
+            if (code == KeyEvent.VK_ESCAPE) {
                 gp.gameState = gp.playState;
             }
         }
-        //Debug
-        if (code == KeyEvent.VK_T){
-            if (!checkDrawTime){
-                checkDrawTime = true;
-            } else if (checkDrawTime) {
-                checkDrawTime = false;
+        //Dialogue State
+       else if (gp.gameState == gp.dialogueState){
+            if (code == KeyEvent.VK_ENTER){
+                gp.gameState = gp.playState;
             }
         }
     }

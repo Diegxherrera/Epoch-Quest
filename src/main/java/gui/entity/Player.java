@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player extends Entity {
-    GamePanel gp;
+
     KeyHandler keyH;
 
     public final int screenX;
@@ -18,7 +18,7 @@ public class Player extends Entity {
 
 
     public Player(GamePanel gp, KeyHandler keyH){
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
 
         screenX = gp.screenWidth/2 - gp.tileSize/2;
@@ -42,35 +42,28 @@ public class Player extends Entity {
         worldY= gp.tileSize * 21;
         speed=4;
         direction="down";
+
+        //Player status
+        maxLife = 6;
+        life = maxLife;
     }
 
     public void getPlayerImage() {
 
-        up1 = setUp("onionKnightUp1");
-        up2 = setUp("onionKnightUp2");
-        up3 = setUp("onionKnightUp3");
-        down1 = setUp("onionKnightDown1");
-        down2 = setUp("onionKnightDown2");
-        down3 = setUp("onionKnightDown3");
-        left1 = setUp("onionKnightLeft1");
-        left2 = setUp("onionKnightLeft2");
-        left3 = setUp("onionKnightLeft3");
-        right1 = setUp("onionKnightRight1");
-        right2 = setUp("onionKnightRight2");
-        right3 = setUp("onionKnightRight3");
+        up1 = setUp("/player/onionKnightUp1");
+        up2 = setUp("/player/onionKnightUp2");
+        up3 = setUp("/player/onionKnightUp3");
+        down1 = setUp("/player/onionKnightDown1");
+        down2 = setUp("/player/onionKnightDown2");
+        down3 = setUp("/player/onionKnightDown3");
+        left1 = setUp("/player/onionKnightLeft1");
+        left2 = setUp("/player/onionKnightLeft2");
+        left3 = setUp("/player/onionKnightLeft3");
+        right1 = setUp("/player/onionKnightRight1");
+        right2 = setUp("/player/onionKnightRight2");
+        right3 = setUp("/player/onionKnightRight3");
     }
-    public BufferedImage setUp(String imageName){
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
 
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return image;
-    }
 
     public void update(){
         if (keyH.upPressed ==true ||keyH.downPressed ==true ||
@@ -92,6 +85,20 @@ public class Player extends Entity {
             //Check Object collison
             int objIndex = gp.cChecker.checkObject(this,true);
             pickUpObject(objIndex);
+
+            //Check NPC collision
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
+
+            //Check monster collision
+            int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+            contactMonster(monsterIndex);
+
+            //Check Event
+            gp.eHandler.checkEvent();
+            gp.keyH.enterPressed = false;
+
+
             //if collision is false, player can move
             if (!collisionOn) {
                 switch (direction) {
@@ -125,11 +132,35 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+        if (invincible == true){
+            invincibleCounter++;
+            if (invincibleCounter >60){
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
     }
 
     public void pickUpObject(int i){
         if (i != 999){
 
+        }
+    }
+    public void interactNPC(int i){
+        if (i != 999){
+            if (gp.keyH.enterPressed == true) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
+            }
+
+        }
+    }
+    public void contactMonster(int i){
+        if (i !=999){
+            if (invincible == false) {
+                life -= 1;
+                invincible = true;
+            }
         }
     }
 
@@ -183,6 +214,15 @@ public class Player extends Entity {
 
 
         }
+        if (invincible == true){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        }
         g2.drawImage(image,screenX,screenY,null);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
+
+//        g2.setFont(new Font("Arial",Font.PLAIN,26));
+//        g2.setColor(Color.white);
+//        g2.drawString("Invincible: " + invincibleCounter,10,400);
     }
 }
