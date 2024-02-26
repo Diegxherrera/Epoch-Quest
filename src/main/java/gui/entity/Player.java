@@ -2,12 +2,8 @@ package gui.entity;
 
 import gui.main.GamePanel;
 import gui.main.KeyHandler;
-import gui.main.UtilityTool;
-
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Player extends Entity {
 
@@ -34,6 +30,7 @@ public class Player extends Entity {
 
         setDefaultValues();
         getPlayerImage();
+        getPlayerAttackImage();
     }
 
     public void setDefaultValues(){
@@ -49,25 +46,34 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
-
-        up1 = setUp("/player/onionKnightUp1");
-        up2 = setUp("/player/onionKnightUp2");
-        up3 = setUp("/player/onionKnightUp3");
-        down1 = setUp("/player/onionKnightDown1");
-        down2 = setUp("/player/onionKnightDown2");
-        down3 = setUp("/player/onionKnightDown3");
-        left1 = setUp("/player/onionKnightLeft1");
-        left2 = setUp("/player/onionKnightLeft2");
-        left3 = setUp("/player/onionKnightLeft3");
-        right1 = setUp("/player/onionKnightRight1");
-        right2 = setUp("/player/onionKnightRight2");
-        right3 = setUp("/player/onionKnightRight3");
+        up1 = setUp("/player/blueBoy/boy_up_1",gp.tileSize,gp.tileSize);
+        up2 = setUp("/player/blueBoy/boy_up_2",gp.tileSize,gp.tileSize);
+//        up3 = setUp("/player/onionKnightUp3");
+        down1 = setUp("/player/blueBoy/boy_down_1",gp.tileSize,gp.tileSize);
+        down2 = setUp("/player/blueBoy/boy_down_2",gp.tileSize,gp.tileSize);
+//        down3 = setUp("/player/onionKnightDown3");
+        left1 = setUp("/player/blueBoy/boy_left_1",gp.tileSize,gp.tileSize);
+        left2 = setUp("/player/blueBoy/boy_left_2",gp.tileSize,gp.tileSize);
+//        left3 = setUp("/player/onionKnightLeft3");
+        right1 = setUp("/player/blueBoy/boy_right_1",gp.tileSize,gp.tileSize);
+        right2 = setUp("/player/blueBoy/boy_right_2",gp.tileSize,gp.tileSize);
+//        right3 = setUp("/player/onionKnightRight3");
     }
-
+    public void getPlayerAttackImage(){
+        attackUp1 = setUp("/player/blueBoy/boy_attack_up_1",gp.tileSize,gp.tileSize*2);
+        attackUp2 = setUp("/player/blueBoy/boy_attack_up_2",gp.tileSize,gp.tileSize*2);
+        attackDown1 = setUp("/player/blueBoy/boy_attack_down_1",gp.tileSize,gp.tileSize*2);
+        attackDown2 = setUp("/player/blueBoy/boy_attack_down_2",gp.tileSize,gp.tileSize*2);
+        attackLeft1 = setUp("/player/blueBoy/boy_attack_left_1",gp.tileSize*2,gp.tileSize);
+        attackLeft2 = setUp("/player/blueBoy/boy_attack_left_2",gp.tileSize*2,gp.tileSize);
+        attackRight1 = setUp("/player/blueBoy/boy_attack_right_1",gp.tileSize*2,gp.tileSize);
+        attackRight2 = setUp("/player/blueBoy/boy_attack_right_2",gp.tileSize*2,gp.tileSize);
+    }
 
     public void update(){
         if (keyH.upPressed ==true ||keyH.downPressed ==true ||
-                keyH.leftPressed ==true ||keyH.rightPressed ==true ) {
+                keyH.leftPressed ==true ||keyH.rightPressed ==true ||
+                keyH.enterPressed ==true) {
             if (keyH.upPressed == true) {
                 direction = "up";
             } else if (keyH.downPressed == true) {
@@ -96,11 +102,11 @@ public class Player extends Entity {
 
             //Check Event
             gp.eHandler.checkEvent();
-            gp.keyH.enterPressed = false;
+
 
 
             //if collision is false, player can move
-            if (!collisionOn) {
+            if (!collisionOn && !keyH.enterPressed) {
                 switch (direction) {
                     case "up":
                         worldY -= speed;
@@ -119,22 +125,26 @@ public class Player extends Entity {
                         break;
                 }
             }
+            gp.keyH.enterPressed = false;
 
             spriteCounter++;
-            if (spriteCounter > 13) {
+            if (spriteCounter > 15) {
                 if (spriteNum == 1) {
                     spriteNum = 2;
                 } else if (spriteNum == 2) {
-                    spriteNum = 3;
-                } else if (spriteNum == 3) {
                     spriteNum = 1;
                 }
+//                else if (spriteNum == 2) {
+//                    spriteNum = 3;
+//                } else if (spriteNum == 3) {
+//                    spriteNum = 1;
+//                }
                 spriteCounter = 0;
             }
         }
-        if (invincible == true){
+        if (invincible){
             invincibleCounter++;
-            if (invincibleCounter >60){
+            if (invincibleCounter >120){
                 invincible = false;
                 invincibleCounter = 0;
             }
@@ -157,10 +167,15 @@ public class Player extends Entity {
     }
     public void contactMonster(int i){
         if (i !=999){
-            if (invincible == false) {
-                life -= 1;
-                invincible = true;
-            }
+
+            gp.gameState = gp.battleState;
+//            if (invincible == false) {
+////                life -= 1;
+//                invincible = true;
+//
+//                //Pantalla de batalla
+//
+//            }
         }
     }
 
@@ -174,9 +189,9 @@ public class Player extends Entity {
                 if (spriteNum==2){
                     image = up2;
                 }
-                if (spriteNum==3){
-                    image = up3;
-                }
+//                if (spriteNum==3){
+//                    image = up3;
+//                }
                 break;
             case "down":
                 if (spriteNum==1) {
@@ -185,9 +200,9 @@ public class Player extends Entity {
                 if (spriteNum==2){
                     image = down2;
                 }
-                if (spriteNum==3){
-                    image = down3;
-                }
+//                if (spriteNum==3){
+//                    image = down3;
+//                }
                 break;
             case "left":
                 if (spriteNum==1) {
@@ -196,9 +211,9 @@ public class Player extends Entity {
                 if (spriteNum==2){
                     image = left2;
                 }
-                if (spriteNum==3){
-                    image = left3;
-                }
+//                if (spriteNum==3){
+//                    image = left3;
+//                }
                 break;
             case "right":
                 if (spriteNum==1) {
@@ -207,9 +222,9 @@ public class Player extends Entity {
                 if (spriteNum==2){
                     image = right2;
                 }
-                if (spriteNum==3){
-                    image = right3;
-                }
+//                if (spriteNum==3){
+//                    image = right3;
+//                }
                 break;
 
 

@@ -8,32 +8,36 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public abstract class Entity {
+public class Entity {
     GamePanel gp;
-    public int worldX, worldY;
-    public int speed;
-
     public BufferedImage up1, up2, up3, down1, down2, down3, left1, left2, left3, right1, right2, right3;
-    public String direction = "down";
-    public int spriteCounter = 0;
-    public int spriteNum = 1;
-    public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
-
-    public int solidAreaDefaultX, solidAreaDefaultY;
-    public boolean collisionOn = false;
-    public int actionLockCounter = 0;
-    public boolean invincible = false;
-    public int invincibleCounter = 0;
-     String[] dialogues = new String[20];
-     int dialogueIndex = 0;
+    public BufferedImage attackUp1,attackUp2,attackDown1,attackDown2,attackLeft1,attackLeft2,attackRight1,attackRight2;
     public BufferedImage image,image2,image3;
-    public String name;
+    public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collision = false;
-    public int type; //0 = player, 1 = npc, 2 = monster
+    String[] dialogues = new String[20];
 
-     //Character Status
-    public int maxLife;
-    public int life;
+    //State
+    public int worldX, worldY;
+    public String direction = "down";
+    public int spriteNum = 1;
+    int dialogueIndex = 0;
+    public boolean collisionOn = false;
+    public boolean invincible = false;
+    boolean attacking = false;
+
+    //Counter
+    public int spriteCounter = 0;
+    public int actionLockCounter = 0;
+    public int invincibleCounter = 0;
+
+    //Character Status
+     public int type; //0 = players, 1 = npc, 2 = monster
+     public String name;
+     public int speed;
+     public int maxLife;
+     public int life;
 
 
     public Entity(GamePanel gp) {
@@ -153,13 +157,13 @@ public abstract class Entity {
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
         }
     }
-    public BufferedImage setUp (String imagePath){
+    public BufferedImage setUp (String imagePath, int width, int height){
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
 
         try {
             image = ImageIO.read(getClass().getResourceAsStream(imagePath + ".png"));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
+            image = uTool.scaleImage(image, width, height);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -13,6 +13,7 @@ import java.io.InputStream;
 
 public class UI {
     GamePanel gp;
+    Entity entity;
     Graphics2D g2;
     Font maruMonica;
     BufferedImage heart_full,heart_half,heart_blank;
@@ -34,10 +35,9 @@ public class UI {
         this.gp = gp;
         try {
             InputStream is = getClass().getResourceAsStream("/font/x12y16pxMaruMonica.ttf");
+            assert is != null;
             maruMonica = Font.createFont(Font.TRUETYPE_FONT,is);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
         //Create HUD object
@@ -86,6 +86,10 @@ public class UI {
             drawPlayerlife();
             drawDialogueScreen();
         }
+        if (gp.gameState == gp.battleState){
+            drawPlayerlife();
+            drawBattleScreen();
+       }
 
     }
 
@@ -147,7 +151,7 @@ public class UI {
             //Player Image
             x = gp.screenWidth / 2 - (gp.tileSize * 2) / 2;
             y += gp.tileSize * 2;
-            g2.drawImage(gp.player.down2, x, y, gp.tileSize * 2, gp.tileSize * 2, null);
+            g2.drawImage(gp.player.down1, x, y, gp.tileSize * 2, gp.tileSize * 2, null);
             //Menu
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
             text = "NEW GAME";
@@ -224,7 +228,7 @@ public class UI {
         int y = gp.tileSize/2;
         int width = gp.screenWidth - (gp.tileSize*4);
         int height = gp.tileSize*4;
-        drawSubWindow(x,y,width,height);
+        drawDialogueWindow(x,y,width,height);
 
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32F));
         x += gp.tileSize;
@@ -234,7 +238,7 @@ public class UI {
             y += 40;
         }
     }
-    public void drawSubWindow(int x, int y, int width,int height){
+    public void drawDialogueWindow(int x, int y, int width, int height){
         Color c = new Color(0,0,0,210);
         g2.setColor(c);
         g2.fillRoundRect(x,y,width,height,35,35);
@@ -244,9 +248,88 @@ public class UI {
         g2.drawRoundRect(x+5,y+5,width-10,height-10,25,25);
     }
 
+    public void drawBattleScreen() {
+        int x;
+        int y;
+        int playerX;
+        int playerY;
+        int enemyX;
+        int enemyY;
+        // Fondo
+        g2.setColor(new Color(0, 0, 0, 220)); // Fondo semi-transparente negro
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        // Marco del área de batalla
+        g2.setColor(new Color(255, 255, 255, 220));
+        g2.drawRoundRect(gp.tileSize / 2, gp.tileSize / 2, gp.screenWidth - gp.tileSize, gp.screenHeight - gp.tileSize, 35, 35);
+
+        // Player Image
+        playerX = gp.screenWidth / 5 - gp.tileSize / 2;
+        playerY = gp.screenHeight / 2;
+        g2.drawImage(gp.player.right1, playerX, playerY, gp.tileSize * 4 / 5, gp.tileSize * 4 / 5, null);
+
+        // Enemy Image
+        enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
+        enemyY = gp.screenHeight * 2 / 3;
+        // g2.drawImage(entity.left1, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
+        // Se necesita un método para determinar qué monstruo es
+
+        // Menú
+        drawBattleMenu();
+    }
+
+    public void drawBattleMenu() {
+        String text;
+        int x, y;
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+
+        // ATTACK
+        text = "ATTACK";
+        x = getXForBattleMenu(text, gp.screenWidth / 4);
+        y = gp.screenHeight * 6 / 8;
+        g2.setColor(Color.white);
+        g2.drawString(text, x, y);
+        if (commandNum == 0) {
+            g2.drawString(">", x - gp.tileSize, y);
+        }
+
+        // MAGIC
+        text = "MAGIC";
+        x = getXForBattleMenu(text, gp.screenWidth / 4);
+        y = gp.screenHeight * 7 / 8;
+        g2.drawString(text, x, y);
+        if (commandNum == 1) {
+            g2.drawString(">", x - gp.tileSize, y);
+        }
+
+        // OBJECTS
+        text = "OBJECTS";
+        x = getXForBattleMenu(text, gp.screenWidth * 3 / 4);
+        y = gp.screenHeight * 6 / 8;
+        g2.drawString(text, x, y);
+        if (commandNum == 2) {
+            g2.drawString(">", x - gp.tileSize, y);
+        }
+
+        // ESCAPE
+        text = "ESCAPE";
+        x = getXForBattleMenu(text, gp.screenWidth * 3 / 4);
+        y = gp.screenHeight * 7 / 8;
+        g2.drawString(text, x, y);
+        if (commandNum == 3) {
+            g2.drawString(">", x - gp.tileSize, y);
+        }
+    }
+
+
     public int getXForCentered(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gp.screenWidth/2 - length/2;
+    }
+    public int getXForBattleMenu(String text, int position){
+        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        return position - length/2;
     }
 
     public void selectSlot(int index) {

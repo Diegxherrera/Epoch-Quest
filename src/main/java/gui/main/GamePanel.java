@@ -51,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
+    public final int battleState = 4;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -139,6 +140,14 @@ public class GamePanel extends JPanel implements Runnable{
         if (gameState == titleState){
             ui.draw(g2);
         }
+        //Battle Screen
+        else if (gameState == battleState){
+            ui.draw(g2);
+            //Implementar metodo para la logica de combate que funcione con la pantalla de batalla y que use los command num para determinar el comando
+            //1 es para ataque normal, 2 es para acceder al inventario (añadir logica de los objetos de la interfaz me puedo encargar yo)
+            //3 es para un ataque magico (se puede hacer que aparezca un menu pequeño en medio de la pantalla para elegirlo)
+            //4 hace que escapes del combate que ya esta medianamente implementado
+        }
         else{
             //Tiles
             tileM.draw(g2);
@@ -174,9 +183,7 @@ public class GamePanel extends JPanel implements Runnable{
                 entityList.get(i).draw(g2);
             }
             //Empty entity list
-            for (int i = 0; i < entityList.size(); i++) {
-                entityList.remove(i);
-            }
+            entityList.clear();
             //UI
             ui.draw(g2);
         }

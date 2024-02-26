@@ -91,6 +91,35 @@ public class KeyHandler implements KeyListener {
                 }
             }
         }
+        if (gp.gameState == gp.battleState) {
+            if (code == KeyEvent.VK_W) {
+                gp.ui.commandNum = (gp.ui.commandNum - 1 + 4) % 4; // Asegura que commandNum esté en el rango [0, 3]
+            }
+            if (code == KeyEvent.VK_S) {
+                gp.ui.commandNum = (gp.ui.commandNum + 1) % 4; // Asegura que commandNum esté en el rango [0, 3]
+            }
+            if (code == KeyEvent.VK_ENTER) {
+                switch (gp.ui.commandNum) {
+                    case 0:
+                        // Sistema para atacar
+                        break;
+                    case 1:
+                        // Sistema para acceder al menú y elegir objetos desde allí
+                        break;
+                    case 2:
+                        // Sistema para elegir la magia que quieras hacer
+                        break;
+                    case 3:
+                        gp.gameState = gp.playState;
+                        System.out.println("Hola por que no funcionas");
+                        break;
+                    // Agrega más casos según sea necesario
+                }
+            }
+        }
+
+
+
 
         if (gp.gameState == gp.playState) {
             switch (code) {
