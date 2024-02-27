@@ -45,13 +45,13 @@ public class KeyHandler implements KeyListener {
         }
         //Dead State
         if (gp.gameState == gp.deadState){
-            if (code == KeyEvent.VK_W){
+            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
                 gp.ui.commandNum--;
                 if (gp.ui.commandNum < 0){
                     gp.ui.commandNum = 2;
                 }
             }
-            if (code == KeyEvent.VK_S){
+            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
                 gp.ui.commandNum++;
                 if (gp.ui.commandNum > 2){
                     gp.ui.commandNum = 0;
@@ -60,10 +60,12 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_ENTER) {
                 if (gp.ui.commandNum == 0) {
                     //Añadir sistema de guardado para cargar la partida desde el ultimo punto de guardado
+                    gp.player.life += gp.player.maxLife/2;
+                    gp.gameState = gp.playState;
                 }
                 if (gp.ui.commandNum == 1) {
                     gp.player.life = gp.player.maxLife;
-                    gp.gameState = gp.titleState;
+                    gp.gameState = gp.ui.titleScreenState = 0;
                     gp.stopMusic();
                 }
                 if (gp.ui.commandNum == 2) {
@@ -74,13 +76,13 @@ public class KeyHandler implements KeyListener {
         //Title State
         if (gp.gameState == gp.titleState){
             if (gp.ui.titleScreenState == 0) {
-                if (code == KeyEvent.VK_W) {
+                if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
                     gp.ui.commandNum--;
                     if (gp.ui.commandNum < 0) {
                         gp.ui.commandNum = 2;
                     }
                 }
-                if (code == KeyEvent.VK_S) {
+                if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
                     gp.ui.commandNum++;
                     if (gp.ui.commandNum > 2) {
                         gp.ui.commandNum = 0;
@@ -99,13 +101,13 @@ public class KeyHandler implements KeyListener {
                 }
             }
             else if (gp.ui.titleScreenState == 1) {
-                if (code == KeyEvent.VK_W) {
+                if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
                     gp.ui.commandNum--;
                     if (gp.ui.commandNum < 0) {
                         gp.ui.commandNum = 3;
                     }
                 }
-                if (code == KeyEvent.VK_S) {
+                if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
                     gp.ui.commandNum++;
                     if (gp.ui.commandNum > 3) {
                         gp.ui.commandNum = 0;
@@ -131,10 +133,10 @@ public class KeyHandler implements KeyListener {
             }
         }
         if (gp.gameState == gp.battleState) {
-            if (code == KeyEvent.VK_W) {
+            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
                 gp.ui.commandNum = (gp.ui.commandNum - 1 + 4) % 4; // Asegura que commandNum esté en el rango [0, 3]
             }
-            if (code == KeyEvent.VK_S) {
+            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
                 gp.ui.commandNum = (gp.ui.commandNum + 1) % 4; // Asegura que commandNum esté en el rango [0, 3]
             }
             if (code == KeyEvent.VK_ENTER) {
