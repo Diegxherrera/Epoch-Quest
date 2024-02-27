@@ -75,9 +75,9 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.npc);
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
-        if (this.type == 2 && contactPlayer == true){
-            if (gp.player.invincible == false){
-                gp.player.life -= 1;
+        if (this.type == 2 && contactPlayer){
+            if (!gp.player.invincible){
+                gp.gameState = gp.battleState;
                 gp.player.invincible = true;
             }
         }

@@ -1,5 +1,7 @@
 package gui.main;
 
+import gui.entity.Entity;
+import gui.entity.Player;
 import utils.DIContainer;
 
 import java.awt.event.KeyEvent;
@@ -9,6 +11,8 @@ public class KeyHandler implements KeyListener {
     private DIContainer container;
     private UI keyHandlerUi;
     GamePanel gp;
+    Entity entity;
+    Player player;
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
     //Debug
     boolean checkDrawTime = false;
@@ -24,6 +28,7 @@ public class KeyHandler implements KeyListener {
     public KeyHandler(GamePanel gp) {
         this((DIContainer) null);
         this.gp=gp;
+        this.player = new Player(gp,this);
     }
 
     @Override
@@ -32,6 +37,39 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
+        //TEST
+        if (code == KeyEvent.VK_U){
+            gp.player.decreaseLife(1);
+            System.out.println("Vida: " + gp.player.life);
+            System.out.println("Holaaaaaaa");
+        }
+        //Dead State
+        if (gp.gameState == gp.deadState){
+            if (code == KeyEvent.VK_W){
+                gp.ui.commandNum--;
+                if (gp.ui.commandNum < 0){
+                    gp.ui.commandNum = 2;
+                }
+            }
+            if (code == KeyEvent.VK_S){
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum > 2){
+                    gp.ui.commandNum = 0;
+                }
+            }
+            if (code == KeyEvent.VK_ENTER) {
+                if (gp.ui.commandNum == 0) {
+                    //Añadir sistema de guardado para cargar la partida desde el ultimo punto de guardado
+                }
+                if (gp.ui.commandNum == 1) {
+                    gp.gameState = gp.titleState;
+                    gp.stopMusic();
+                }
+                if (gp.ui.commandNum == 2) {
+                    System.exit(0);
+                }
+            }
+        }
         //Title State
         if (gp.gameState == gp.titleState){
             if (gp.ui.titleScreenState == 0) {
@@ -111,7 +149,11 @@ public class KeyHandler implements KeyListener {
                         break;
                     case 3:
                         gp.gameState = gp.playState;
-                        System.out.println("Hola por que no funcionas");
+                        entity.invincible = true;
+                        entity.actionLockCounter++;
+                        if(entity.actionLockCounter ==120){
+                            entity.invincible = false;
+                        }
                         break;
                     // Agrega más casos según sea necesario
                 }

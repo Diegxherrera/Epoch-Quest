@@ -25,10 +25,10 @@ public class NPC_OldMan extends Entity {
 
     }
     public void setDialgue(){
-        dialogues[0] = "Hello, lad.";
-        dialogues[1] = "So you've come to this island to \nfind the treasure?";
-        dialogues[2] = "I used to be a great wizard but now... \nI'm a bit too old for taking an adventure.";
-        dialogues[3] = "Well, good luck on you.";
+        dialogues[0] = "Hey, you. You're finally awake.";
+        dialogues[1] = "You were trying to cross the border, right? \nWalked right into that Imperial ambush, \nsame as us, and that thief over there.";
+        dialogues[2] = "Damn you Stormcloaks. \nSkyrim was fine until you came along.";
+        dialogues[3] = "Empire was nice and lazy. \nIf they hadn't been looking for you, \nI could've stolen that horse and \nbe halfway to Hammerfell.";
     }
     public void setAction() {
         actionLockCounter++;

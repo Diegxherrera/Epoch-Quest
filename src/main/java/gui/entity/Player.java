@@ -27,6 +27,7 @@ public class Player extends Entity {
         solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 32;
+        type = 0;
 
         setDefaultValues();
         getPlayerImage();
@@ -71,16 +72,16 @@ public class Player extends Entity {
     }
 
     public void update(){
-        if (keyH.upPressed ==true ||keyH.downPressed ==true ||
-                keyH.leftPressed ==true ||keyH.rightPressed ==true ||
-                keyH.enterPressed ==true) {
-            if (keyH.upPressed == true) {
+        if (keyH.upPressed || keyH.downPressed ||
+                keyH.leftPressed || keyH.rightPressed ||
+                keyH.enterPressed) {
+            if (keyH.upPressed) {
                 direction = "up";
-            } else if (keyH.downPressed == true) {
+            } else if (keyH.downPressed) {
                 direction = "down";
-            } else if (keyH.leftPressed == true) {
+            } else if (keyH.leftPressed) {
                 direction = "left";
-            } else if (keyH.rightPressed == true) {
+            } else if (keyH.rightPressed) {
                 direction = "right";
             }
 
@@ -103,7 +104,8 @@ public class Player extends Entity {
             //Check Event
             gp.eHandler.checkEvent();
 
-
+            //DIES
+            characterDeath();
 
             //if collision is false, player can move
             if (!collisionOn && !keyH.enterPressed) {
@@ -158,24 +160,25 @@ public class Player extends Entity {
     }
     public void interactNPC(int i){
         if (i != 999){
-            if (gp.keyH.enterPressed == true) {
+            if (gp.keyH.enterPressed) {
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
             }
-
         }
     }
     public void contactMonster(int i){
-        if (i !=999){
-
+        if (i !=999 && !invincible ){
             gp.gameState = gp.battleState;
-//            if (invincible == false) {
-////                life -= 1;
-//                invincible = true;
-//
-//                //Pantalla de batalla
-//
-//            }
+        }
+
+    }
+    public void decreaseLife(int amount){
+        life -= amount;
+    }
+    public void characterDeath(){
+        if (life <= 0){
+            gp.gameState = gp.deadState;
+            System.out.println("Game state: "+ gp.gameState);
         }
     }
 
@@ -229,7 +232,7 @@ public class Player extends Entity {
 
 
         }
-        if (invincible == true){
+        if (invincible){
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         }
         g2.drawImage(image,screenX,screenY,null);

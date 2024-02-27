@@ -87,9 +87,12 @@ public class UI {
             drawDialogueScreen();
         }
         if (gp.gameState == gp.battleState){
-            drawPlayerlife();
             drawBattleScreen();
+            drawPlayerlife();
        }
+        if (gp.gameState == gp.deadState){
+            drawDeathScreen();
+        }
 
     }
 
@@ -256,7 +259,7 @@ public class UI {
         int enemyX;
         int enemyY;
         // Fondo
-        g2.setColor(new Color(0, 0, 0, 220)); // Fondo semi-transparente negro
+        g2.setColor(new Color(0, 0, 0, 245)); // Fondo semi-transparente negro
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
         // Marco del área de batalla
@@ -265,8 +268,8 @@ public class UI {
 
         // Player Image
         playerX = gp.screenWidth / 5 - gp.tileSize / 2;
-        playerY = gp.screenHeight / 2;
-        g2.drawImage(gp.player.right1, playerX, playerY, gp.tileSize * 4 / 5, gp.tileSize * 4 / 5, null);
+        playerY = gp.screenHeight / 2 - gp.tileSize * 2 ;
+        g2.drawImage(gp.player.right1, playerX, playerY, gp.tileSize * 2, gp.tileSize * 2, null);
 
         // Enemy Image
         enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
@@ -321,6 +324,51 @@ public class UI {
             g2.drawString(">", x - gp.tileSize, y);
         }
     }
+    public void drawDeathScreen(){
+        g2.setColor(new Color(0, 0, 0));
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 100F));
+        String text = "HAS MUERTO";
+        int x = getXForCentered(text);
+        int y = gp.tileSize * 3;
+        //Shadow
+        g2.setColor(Color.gray);
+        g2.drawString(text, x + 5, y + 5);
+        //Main color
+        g2.setColor(Color.white);
+        g2.drawString(text, x, y);
+        //Player Image
+        x = gp.screenWidth / 2 - (gp.tileSize * 2) / 2;
+        y += gp.tileSize * 2;
+        g2.drawImage(gp.player.up1, x, y, gp.tileSize * 2, gp.tileSize * 2, null);
+        //Menu
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
+        text = "CONTINUE";
+        x = getXForCentered(text);
+        y += gp.tileSize * 4;
+        g2.drawString(text, x, y);
+        if (commandNum == 0) {
+            g2.drawString(">", x - gp.tileSize, y);
+        }
+        text = "MAIN MENU";
+        x = getXForCentered(text);
+        y += gp.tileSize;
+        g2.drawString(text, x, y);
+        if (commandNum == 1) {
+            g2.drawString(">", x - gp.tileSize, y);
+        }
+        text = "QUIT";
+        x = getXForCentered(text);
+        y += gp.tileSize;
+        g2.drawString(text, x, y);
+        if (commandNum == 2) {
+            g2.drawString(">", x - gp.tileSize, y);
+        }
+
+    }
+
+
 
 
     public int getXForCentered(String text){

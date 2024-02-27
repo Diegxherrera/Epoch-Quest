@@ -1,6 +1,6 @@
 package gui.main;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,6 +9,8 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Juego 2D");
+//        ImageIcon icon = new ImageIcon("/logo.png");
+//        window.setIconImage(icon.getImage());
 
         GamePanel gamePanel = new GamePanel();
 

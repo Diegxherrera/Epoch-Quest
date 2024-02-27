@@ -52,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int battleState = 4;
+    public final int deadState = 5;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -147,6 +148,9 @@ public class GamePanel extends JPanel implements Runnable{
             //1 es para ataque normal, 2 es para acceder al inventario (añadir logica de los objetos de la interfaz me puedo encargar yo)
             //3 es para un ataque magico (se puede hacer que aparezca un menu pequeño en medio de la pantalla para elegirlo)
             //4 hace que escapes del combate que ya esta medianamente implementado
+        }
+        else if (gameState == deadState) {
+            ui.draw(g2);
         }
         else{
             //Tiles
