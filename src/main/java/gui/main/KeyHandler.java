@@ -62,6 +62,7 @@ public class KeyHandler implements KeyListener {
                     //Añadir sistema de guardado para cargar la partida desde el ultimo punto de guardado
                 }
                 if (gp.ui.commandNum == 1) {
+                    gp.player.life = gp.player.maxLife;
                     gp.gameState = gp.titleState;
                     gp.stopMusic();
                 }

@@ -72,85 +72,87 @@ public class Player extends Entity {
     }
 
     public void update(){
-        if (keyH.upPressed || keyH.downPressed ||
-                keyH.leftPressed || keyH.rightPressed ||
-                keyH.enterPressed) {
-            if (keyH.upPressed) {
-                direction = "up";
-            } else if (keyH.downPressed) {
-                direction = "down";
-            } else if (keyH.leftPressed) {
-                direction = "left";
-            } else if (keyH.rightPressed) {
-                direction = "right";
-            }
+       if (!isDead()) {
+           if (keyH.upPressed || keyH.downPressed ||
+                   keyH.leftPressed || keyH.rightPressed ||
+                   keyH.enterPressed) {
+               if (keyH.upPressed) {
+                   direction = "up";
+               } else if (keyH.downPressed) {
+                   direction = "down";
+               } else if (keyH.leftPressed) {
+                   direction = "left";
+               } else if (keyH.rightPressed) {
+                   direction = "right";
+               }
 
-            //Check tile collision
-            collisionOn = false;
-            gp.cChecker.checkTile(this);
+               //Check tile collision
+               collisionOn = false;
+               gp.cChecker.checkTile(this);
 
-            //Check Object collison
-            int objIndex = gp.cChecker.checkObject(this,true);
-            pickUpObject(objIndex);
+               //Check Object collison
+               int objIndex = gp.cChecker.checkObject(this, true);
+               pickUpObject(objIndex);
 
-            //Check NPC collision
-            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
-            interactNPC(npcIndex);
+               //Check NPC collision
+               int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+               interactNPC(npcIndex);
 
-            //Check monster collision
-            int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-            contactMonster(monsterIndex);
+               //Check monster collision
+               int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+               contactMonster(monsterIndex);
 
-            //Check Event
-            gp.eHandler.checkEvent();
+               //Check Event
+               gp.eHandler.checkEvent();
 
-            //DIES
-            characterDeath();
+               //if collision is false, player can move
+               if (!collisionOn && !keyH.enterPressed) {
+                   switch (direction) {
+                       case "up":
+                           worldY -= speed;
+                           break;
 
-            //if collision is false, player can move
-            if (!collisionOn && !keyH.enterPressed) {
-                switch (direction) {
-                    case "up":
-                        worldY -= speed;
-                        break;
+                       case "down":
+                           worldY += speed;
+                           break;
 
-                    case "down":
-                        worldY += speed;
-                        break;
+                       case "left":
+                           worldX -= speed;
+                           break;
 
-                    case "left":
-                        worldX -= speed;
-                        break;
+                       case "right":
+                           worldX += speed;
+                           break;
+                   }
+               }
+               gp.keyH.enterPressed = false;
 
-                    case "right":
-                        worldX += speed;
-                        break;
-                }
-            }
-            gp.keyH.enterPressed = false;
-
-            spriteCounter++;
-            if (spriteCounter > 15) {
-                if (spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
-                    spriteNum = 1;
-                }
+               spriteCounter++;
+               if (spriteCounter > 15) {
+                   if (spriteNum == 1) {
+                       spriteNum = 2;
+                   } else if (spriteNum == 2) {
+                       spriteNum = 1;
+                   }
 //                else if (spriteNum == 2) {
 //                    spriteNum = 3;
 //                } else if (spriteNum == 3) {
 //                    spriteNum = 1;
 //                }
-                spriteCounter = 0;
-            }
-        }
-        if (invincible){
-            invincibleCounter++;
-            if (invincibleCounter >120){
-                invincible = false;
-                invincibleCounter = 0;
-            }
-        }
+                   spriteCounter = 0;
+               }
+           }
+           if (invincible) {
+               invincibleCounter++;
+               if (invincibleCounter > 120) {
+                   invincible = false;
+                   invincibleCounter = 0;
+               }
+           }
+       }
+           if (isDead()){
+               handleDeath();
+           }
     }
 
     public void pickUpObject(int i){
@@ -175,11 +177,19 @@ public class Player extends Entity {
     public void decreaseLife(int amount){
         life -= amount;
     }
-    public void characterDeath(){
-        if (life <= 0){
-            gp.gameState = gp.deadState;
-            System.out.println("Game state: "+ gp.gameState);
-        }
+//    public void characterDeath(){
+//        if (life <= 0){
+//            gp.gameState = gp.deadState;
+//            System.out.println("Game state: "+ gp.gameState);
+//        }
+//    }
+    public boolean isDead(){
+        return life <=0;
+    }
+    private void handleDeath(){
+        gp.gameState = gp.deadState;
+        System.out.println("El jugador ha muerto, que pelele");
+
     }
 
     public void draw(Graphics2D g2){
