@@ -11,12 +11,29 @@ public class Player extends Character {
         this.currentWeapon = cW;
     }
 
+
+    void setPlayerHealth(int health){
+        this.setHealth(health);
+    }
+
+    int getPlayerHealth(){
+        return this.getHealth();
+    }
+
+
     public void takeItem(Item item) {
         this.personalInventory.addItem(item);
     }
 
     public void dropItem() {
         this.personalInventory.dropItem();
+    }
+
+    public void takeDamage(Weapon weapon) {
+        this.setPlayerHealth(getHealth()-weapon.getDamageHealth());
+    }
+    public void cureHealth(Potion potion){
+        this.setPlayerHealth(getPlayerHealth()+potion.getCuredHealth());
     }
 
     public void levelUp() {

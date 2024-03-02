@@ -66,7 +66,7 @@ public class Inventory {
 
 abstract class Item {
     private final String name;
-    private final int value;
+    private int value;
     private final String imagePath;
 
     public Item(String name, int value, String imagePath) {
@@ -76,6 +76,10 @@ abstract class Item {
     }
 
     abstract void use();
+
+    void setItemHealth(int health){this.value = health;}
+    int getItemHealth() {return this.value;}
+
 
     String inspectItem() {
         return "Name: " + name + "\n Value: " + value;
