@@ -30,8 +30,11 @@ public class UI {
     public String currentDialogue = "";
     public int commandNum = 0;
     public int titleScreenState = 0; // 0: the first screen 1: the second screen
+    private int currentEnemyIndex = -1; // Inicializado a -1 para indicar que no hay enemigo actual
+
 
     public UI(GamePanel gp){
+
         this.gp = gp;
         try {
             InputStream is = getClass().getResourceAsStream("/font/x12y16pxMaruMonica.ttf");
@@ -271,11 +274,23 @@ public class UI {
         playerY = gp.screenHeight / 2 - gp.tileSize * 2 ;
         g2.drawImage(gp.player.right1, playerX, playerY, gp.tileSize * 2, gp.tileSize * 2, null);
 
+        System.out.println("Current Enemy Index: " + gp.currentEnemyIndex);
+
         // Enemy Image
-        enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
-        enemyY = gp.screenHeight * 2 / 3;
-        // g2.drawImage(entity.left1, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
-        // Se necesita un método para determinar qué monstruo es
+        BufferedImage enemyImage = null;
+        if (gp.currentEnemyIndex != 999 && gp.currentEnemyIndex >= 0 && gp.currentEnemyIndex < gp.monsterImages.length) {
+            enemyImage = gp.monsterImages[gp.currentEnemyIndex];
+        } else {
+            System.out.println("No enemy in contact");
+        }
+
+        if (enemyImage != null) {
+            enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
+            enemyY = gp.screenHeight * 2 / 3;
+            g2.drawImage(enemyImage, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
+        }
+
+
 
         // Menú
         drawBattleMenu();
@@ -367,9 +382,6 @@ public class UI {
         }
 
     }
-
-
-
 
     public int getXForCentered(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();

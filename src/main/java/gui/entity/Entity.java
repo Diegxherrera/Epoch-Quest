@@ -4,9 +4,11 @@ import gui.main.GamePanel;
 import gui.main.UtilityTool;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class Entity {
     GamePanel gp;
@@ -38,7 +40,6 @@ public class Entity {
      public int speed;
      public int maxLife;
      public int life;
-
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -157,16 +158,24 @@ public class Entity {
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
         }
     }
-    public BufferedImage setUp (String imagePath, int width, int height){
+    public BufferedImage getImage(String imagePath, int width, int height) {
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(getClass().getResourceAsStream(imagePath + ".png"));
-            image = uTool.scaleImage(image, width, height);
+            InputStream inputStream = getClass().getResourceAsStream(imagePath);
+            if (inputStream != null) {
+                image = ImageIO.read(inputStream);
+                image = uTool.scaleImage(image, width, height);
+            } else {
+                System.out.println("Error: InputStream is null for imagePath: " + imagePath);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return image;
     }
-}
+
+
+
+     }

@@ -1,6 +1,7 @@
 package gui.main;
 
 import gui.entity.NPC_OldMan;
+import gui.monster.MON_Goblin;
 import gui.monster.MON_GreenSlime;
 
 public class AssetSetter {
@@ -21,7 +22,7 @@ public class AssetSetter {
         gp.monster[0].worldX = gp.tileSize*23;
         gp.monster[0].worldY = gp.tileSize*36;
 
-        gp.monster[1] = new MON_GreenSlime(gp);
+        gp.monster[1] = new MON_Goblin(gp);
         gp.monster[1].worldX = gp.tileSize*23;
         gp.monster[1].worldY = gp.tileSize*37;
     }

@@ -6,6 +6,7 @@ import gui.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,7 +45,12 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity[] npc = new Entity[10];
     public Entity[] monster = new Entity[20];
     ArrayList<Entity> entityList = new ArrayList<>();
-    
+    BufferedImage[] monsterImages;
+    int currentEnemyIndex = 999; // Inicializado a -1 para indicar que no hay enemigo actual
+
+
+
+
     //Game State
     public int gameState;
     public final int titleState = 0;
@@ -65,7 +71,21 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setObject();
         aSetter.setNPC();
         aSetter.setMonster();
-       // playMusic(0);
+
+        String[] monsterImagePaths = {
+                "/monster/spr_Blue_slime_idle_0.png",
+                "/monster/spr_goblin_idle_0.png",
+                // Otras rutas de imágenes según sea necesario
+        };
+        int monsterImageWidth = tileSize;
+        int monsterImageHeight = tileSize;
+        monsterImages = new BufferedImage[monsterImagePaths.length];
+        for (int i = 0; i < monsterImagePaths.length; i++) {
+            monsterImages[i] = getMonsterImage(i, monsterImagePaths[i], monsterImageWidth, monsterImageHeight);
+        }
+
+
+        // playMusic(0);
         gameState = titleState;
     }
 
@@ -117,11 +137,16 @@ public class GamePanel extends JPanel implements Runnable{
                     npc[i].update();
                 }
             }
-            for (int i = 0; i < monster.length; i++) {
-                if (monster[i] != null) {
-                    monster[i].update();
-                }
-            }
+//            for (int i = 0; i < monster.length; i++) {
+//                if (monster[i] != null) {
+//                    if (player.intersects(monster[i])) {
+//                        // Player collided with a monster
+//                        currentEnemyIndex = i;
+//                        gameState = battleState; // Transition to battle state
+//                        break; // No need to check further
+//                    }
+//                }
+//            }
         }
         if (gameState == pauseState){
             //nothing for now
@@ -202,6 +227,24 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
         g2.dispose();
+    }
+    public BufferedImage[] getMonsterImages(String[] imagePaths, int width, int height) {
+        BufferedImage[] monsterImages = new BufferedImage[imagePaths.length];
+
+        for (int i = 0; i < imagePaths.length; i++) {
+            if (monster[i] != null) {
+                monsterImages[i] = getMonsterImage(i, imagePaths[i], width, height);
+            }
+        }
+
+        return monsterImages;
+    }
+
+    public BufferedImage getMonsterImage(int index, String imagePath, int width, int height) {
+        if (monster[index] != null) {
+            return monster[index].getImage(imagePath, width, height);
+        }
+        return null;
     }
 
     public void playMusic(int i){

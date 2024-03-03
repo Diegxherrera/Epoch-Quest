@@ -47,28 +47,28 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
-        up1 = setUp("/player/blueBoy/boy_up_1",gp.tileSize,gp.tileSize);
-        up2 = setUp("/player/blueBoy/boy_up_2",gp.tileSize,gp.tileSize);
+        up1 = getImage("/player/blueBoy/boy_up_1.png",gp.tileSize,gp.tileSize);
+        up2 = getImage("/player/blueBoy/boy_up_2.png",gp.tileSize,gp.tileSize);
 //        up3 = setUp("/player/onionKnightUp3");
-        down1 = setUp("/player/blueBoy/boy_down_1",gp.tileSize,gp.tileSize);
-        down2 = setUp("/player/blueBoy/boy_down_2",gp.tileSize,gp.tileSize);
+        down1 = getImage("/player/blueBoy/boy_down_1.png",gp.tileSize,gp.tileSize);
+        down2 = getImage("/player/blueBoy/boy_down_2.png",gp.tileSize,gp.tileSize);
 //        down3 = setUp("/player/onionKnightDown3");
-        left1 = setUp("/player/blueBoy/boy_left_1",gp.tileSize,gp.tileSize);
-        left2 = setUp("/player/blueBoy/boy_left_2",gp.tileSize,gp.tileSize);
+        left1 = getImage("/player/blueBoy/boy_left_1.png",gp.tileSize,gp.tileSize);
+        left2 = getImage("/player/blueBoy/boy_left_2.png",gp.tileSize,gp.tileSize);
 //        left3 = setUp("/player/onionKnightLeft3");
-        right1 = setUp("/player/blueBoy/boy_right_1",gp.tileSize,gp.tileSize);
-        right2 = setUp("/player/blueBoy/boy_right_2",gp.tileSize,gp.tileSize);
+        right1 = getImage("/player/blueBoy/boy_right_1.png",gp.tileSize,gp.tileSize);
+        right2 = getImage("/player/blueBoy/boy_right_2.png",gp.tileSize,gp.tileSize);
 //        right3 = setUp("/player/onionKnightRight3");
     }
     public void getPlayerAttackImage(){
-        attackUp1 = setUp("/player/blueBoy/boy_attack_up_1",gp.tileSize,gp.tileSize*2);
-        attackUp2 = setUp("/player/blueBoy/boy_attack_up_2",gp.tileSize,gp.tileSize*2);
-        attackDown1 = setUp("/player/blueBoy/boy_attack_down_1",gp.tileSize,gp.tileSize*2);
-        attackDown2 = setUp("/player/blueBoy/boy_attack_down_2",gp.tileSize,gp.tileSize*2);
-        attackLeft1 = setUp("/player/blueBoy/boy_attack_left_1",gp.tileSize*2,gp.tileSize);
-        attackLeft2 = setUp("/player/blueBoy/boy_attack_left_2",gp.tileSize*2,gp.tileSize);
-        attackRight1 = setUp("/player/blueBoy/boy_attack_right_1",gp.tileSize*2,gp.tileSize);
-        attackRight2 = setUp("/player/blueBoy/boy_attack_right_2",gp.tileSize*2,gp.tileSize);
+        attackUp1 = getImage("/player/blueBoy/boy_attack_up_1.png",gp.tileSize,gp.tileSize*2);
+        attackUp2 = getImage("/player/blueBoy/boy_attack_up_2.png",gp.tileSize,gp.tileSize*2);
+        attackDown1 = getImage("/player/blueBoy/boy_attack_down_1.png",gp.tileSize,gp.tileSize*2);
+        attackDown2 = getImage("/player/blueBoy/boy_attack_down_2.png",gp.tileSize,gp.tileSize*2);
+        attackLeft1 = getImage("/player/blueBoy/boy_attack_left_1.png",gp.tileSize*2,gp.tileSize);
+        attackLeft2 = getImage("/player/blueBoy/boy_attack_left_2.png",gp.tileSize*2,gp.tileSize);
+        attackRight1 = getImage("/player/blueBoy/boy_attack_right_1.png",gp.tileSize*2,gp.tileSize);
+        attackRight2 = getImage("/player/blueBoy/boy_attack_right_2.png",gp.tileSize*2,gp.tileSize);
     }
 
     public void update(){
@@ -99,8 +99,14 @@ public class Player extends Entity {
                interactNPC(npcIndex);
 
                //Check monster collision
-               int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-               contactMonster(monsterIndex);
+               int monsterIndex = contactMonster();
+
+               if (monsterIndex != 999) {
+                   gp.gameState = gp.battleState;
+
+                   // Realiza acciones adicionales si es necesario, por ejemplo, almacenar el índice del monstruo
+                   // Puedes usar `monsterIndex` para acceder al monstruo específico en el array gp.monster
+               }
 
                //Check Event
                gp.eHandler.checkEvent();
@@ -168,12 +174,17 @@ public class Player extends Entity {
             }
         }
     }
-    public void contactMonster(int i){
-        if (i !=999 && !invincible ){
-            gp.gameState = gp.battleState;
+    public int contactMonster() {
+        int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+        if (monsterIndex != 999 && !invincible) {
+            return monsterIndex;
         }
-
+        System.out.println(monsterIndex);
+        return 999;
     }
+
+
+
     public void decreaseLife(int amount){
         life -= amount;
     }

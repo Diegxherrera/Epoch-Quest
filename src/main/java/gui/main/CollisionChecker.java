@@ -117,6 +117,7 @@ public class CollisionChecker {
                         entity.solidArea.y -= entity.speed;
                         break;
                     case "down":
+                        entity.solidArea.y += entity.speed;
                         break;
                     case "left":
                         entity.solidArea.x -= entity.speed;

@@ -11,7 +11,7 @@ public class OBJ_Chest  extends Entity {
     public OBJ_Chest(GamePanel gp){
         super(gp);
         name = "Chest";
-        down1 = setUp("/objects/chest (OLD)",gp.tileSize,gp.tileSize);
+        down1 = getImage("/objects/chest (OLD).png",gp.tileSize,gp.tileSize);
         collision = true;
     }
 }
