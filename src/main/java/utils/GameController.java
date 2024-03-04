@@ -48,4 +48,10 @@ public class GameController {
     public void setDependencies(DIContainer diContainer) {
 
     }
+
+
+    public void calculateInteraction(){
+        //el daño del arma mas el daño de la persona
+    }
+
 }

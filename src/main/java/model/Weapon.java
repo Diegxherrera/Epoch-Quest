@@ -5,6 +5,14 @@ public class Weapon extends Item {
         super(name, value, imagePath);
     }
 
+
+    void setDamageHealth(int health){
+        this.setItemHealth(health);
+    }
+    int getDamageHealth(){
+        return this.getItemHealth();
+    }
+
     @Override
     void use() {
 
