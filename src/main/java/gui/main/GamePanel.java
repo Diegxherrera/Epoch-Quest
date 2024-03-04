@@ -2,6 +2,7 @@ package gui.main;
 
 import gui.entity.Entity;
 import gui.entity.Player;
+import gui.monster.MON_GreenSlime;
 import gui.tile.TileManager;
 
 import javax.swing.*;
@@ -97,56 +98,52 @@ public class GamePanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
-        double drawInterval = (double) 1000000000 /FPS;
+        double drawInterval = (double) 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
-        int drawCount= 0;
+        int drawCount = 0;
 
-        while(gameThread != null){
+        while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
-            timer += (currentTime-lastTime);
+            timer += (currentTime - lastTime);
             lastTime = currentTime;
 
             if (delta >= 1) {
-                //Update
+                // Update
                 update();
 
-                //Draw
+                // Draw
                 repaint();
                 delta--;
                 drawCount++;
             }
-            if (timer >= 1000000000){
-                System.out.println("FPS: " +drawCount);
-                drawCount=0;
-                timer=0;
+            if (timer >= 1000000000) {
+                System.out.println("FPS: " + drawCount);
+                drawCount = 0;
+                timer = 0;
             }
         }
     }
 
-    public void update(){
-        if (gameState == playState){
-            //Player
+    public void update() {
+        if (gameState == playState) {
+            // Player
             player.update();
-            //NPC
-            for (int i = 0; i < npc.length; i++) {
-                if (npc[i] != null){
-                    npc[i].update();
+            // NPC
+            for (Entity entity : npc) {
+                if (entity != null) {
+                    entity.update();
                 }
             }
-//            for (int i = 0; i < monster.length; i++) {
-//                if (monster[i] != null) {
-//                    if (player.intersects(monster[i])) {
-//                        // Player collided with a monster
-//                        currentEnemyIndex = i;
-//                        gameState = battleState; // Transition to battle state
-//                        break; // No need to check further
-//                    }
-//                }
-//            }
+            // Monstruos
+            for (Entity entity : monster) {
+                if (entity != null) {
+                    entity.update();
+                }
+            }
         }
         if (gameState == pauseState){
             //nothing for now
@@ -200,12 +197,9 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
             //Sort
-            Collections.sort(entityList, new Comparator<Entity>() {
-                @Override
-                public int compare(Entity e1, Entity e2) {
-                    int result = Integer.compare(e1.worldY, e2.worldY);
-                    return result;
-                }
+            entityList.sort((e1, e2) -> {
+                int result = Integer.compare(e1.worldY, e2.worldY);
+                return result;
             });
             //Draw Entities
             for (int i = 0; i < entityList.size(); i++) {
@@ -227,17 +221,6 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
         g2.dispose();
-    }
-    public BufferedImage[] getMonsterImages(String[] imagePaths, int width, int height) {
-        BufferedImage[] monsterImages = new BufferedImage[imagePaths.length];
-
-        for (int i = 0; i < imagePaths.length; i++) {
-            if (monster[i] != null) {
-                monsterImages[i] = getMonsterImage(i, imagePaths[i], width, height);
-            }
-        }
-
-        return monsterImages;
     }
 
     public BufferedImage getMonsterImage(int index, String imagePath, int width, int height) {

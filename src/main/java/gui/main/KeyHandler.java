@@ -219,11 +219,7 @@ public class KeyHandler implements KeyListener {
 
             //Debug
             if (code == KeyEvent.VK_T) {
-                if (!checkDrawTime) {
-                    checkDrawTime = true;
-                } else if (checkDrawTime) {
-                    checkDrawTime = false;
-                }
+                checkDrawTime = !checkDrawTime;
 
             }
         }

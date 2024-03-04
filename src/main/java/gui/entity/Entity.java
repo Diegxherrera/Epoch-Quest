@@ -28,6 +28,9 @@ public class Entity {
     public boolean collisionOn = false;
     public boolean invincible = false;
     boolean attacking = false;
+    boolean contactPlayer;
+    public boolean blueSlimeDerrotado = false;
+    public boolean goblinDerrotado = false;
 
     //Counter
     public int spriteCounter = 0;
@@ -46,8 +49,11 @@ public class Entity {
     }
     public void setAction(){}
     public void speak(){
-        if (dialogues[dialogueIndex] == null){
+        if (dialogueIndex > 3 ){
             dialogueIndex = 0;
+        }
+        if (dialogueIndex == 3){
+            gp.aSetter.setBlueSlime();
         }
         gp.ui.currentDialogue = dialogues[dialogueIndex];
         dialogueIndex++;
@@ -68,20 +74,81 @@ public class Entity {
         }
 
     }
-    public void update(){
+    public void speak1Boss(){
+        if (blueSlimeDerrotado){
+            dialogueIndex = 4;
+            if (dialogueIndex >= 7){
+                dialogueIndex = 4;
+                gp.aSetter.setGoblin();
+            }
+            gp.ui.currentDialogue = dialogues[dialogueIndex];
+            dialogueIndex++;
+
+            switch (gp.player.direction){
+                case"up":
+                    direction = "down";
+                    break;
+                case"down":
+                    direction = "up";
+                    break;
+                case"left":
+                    direction = "right";
+                    break;
+                case"right":
+                    direction = "left";
+                    break;
+            }
+
+        }
+    }
+    public void speak2Boss(){
+        if (goblinDerrotado){
+            dialogueIndex = 8;
+            if (dialogueIndex >= 11){
+                dialogueIndex = 8;
+                gp.aSetter.setRedBoy();
+            }
+            gp.ui.currentDialogue = dialogues[dialogueIndex];
+            dialogueIndex++;
+
+            switch (gp.player.direction){
+                case"up":
+                    direction = "down";
+                    break;
+                case"down":
+                    direction = "up";
+                    break;
+                case"left":
+                    direction = "right";
+                    break;
+                case"right":
+                    direction = "left";
+                    break;
+            }
+
+        }
+    }
+    public void playerContact(){
+        if (contactPlayer && !invincible) {
+            gp.player.decreaseLife(1);
+            invincible = true;
+            invincibleCounter++;
+        }
+        if (invincibleCounter >= 60){
+            invincible = false;
+        }
+        invincibleCounter = 0;
+    }
+    public void update() {
         setAction();
         collisionOn = false;
         gp.cChecker.checkTile(this);
         gp.cChecker.checkObject(this, false);
         gp.cChecker.checkEntity(this, gp.npc);
         gp.cChecker.checkEntity(this, gp.monster);
-        boolean contactPlayer = gp.cChecker.checkPlayer(this);
-        if (this.type == 2 && contactPlayer){
-            if (!gp.player.invincible){
-                gp.gameState = gp.battleState;
-                gp.player.invincible = true;
-            }
-        }
+        contactPlayer = gp.cChecker.checkPlayer(this);
+        playerContact();
+
 
         if (!collisionOn) {
             switch (direction) {

@@ -98,16 +98,8 @@ public class Player extends Entity {
                int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
                interactNPC(npcIndex);
 
-               //Check monster collision
-               int monsterIndex = contactMonster();
 
-               if (monsterIndex != 999) {
-                   gp.gameState = gp.battleState;
-
-                   // Realiza acciones adicionales si es necesario, por ejemplo, almacenar el índice del monstruo
-                   // Puedes usar `monsterIndex` para acceder al monstruo específico en el array gp.monster
-               }
-
+               contactMonster();
                //Check Event
                gp.eHandler.checkEvent();
 
@@ -140,11 +132,6 @@ public class Player extends Entity {
                    } else if (spriteNum == 2) {
                        spriteNum = 1;
                    }
-//                else if (spriteNum == 2) {
-//                    spriteNum = 3;
-//                } else if (spriteNum == 3) {
-//                    spriteNum = 1;
-//                }
                    spriteCounter = 0;
                }
            }
@@ -171,16 +158,26 @@ public class Player extends Entity {
             if (gp.keyH.enterPressed) {
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
+            } else if (gp.keyH.enterPressed && blueSlimeDerrotado) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak1Boss();
+            }else if (gp.keyH.enterPressed && goblinDerrotado) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak2Boss();
             }
         }
     }
-    public int contactMonster() {
+    public void contactMonster() {
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
         if (monsterIndex != 999 && !invincible) {
-            return monsterIndex;
+            decreaseLife(1);
+            invincible = true;
+            invincibleCounter++;
         }
-        System.out.println(monsterIndex);
-        return 999;
+        if (invincibleCounter >= 60){
+            invincible = false;
+        }
+        invincibleCounter = 0;
     }
 
 

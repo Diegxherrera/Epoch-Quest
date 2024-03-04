@@ -5,10 +5,13 @@ import gui.entity.Entity;
 import gui.object.OBJ_Heart;
 import utils.DIContainer;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Objects;
 
 
 public class UI {
@@ -31,6 +34,7 @@ public class UI {
     public int commandNum = 0;
     public int titleScreenState = 0; // 0: the first screen 1: the second screen
     private int currentEnemyIndex = -1; // Inicializado a -1 para indicar que no hay enemigo actual
+    private String[] monsterImagePath = new String[3];
 
 
     public UI(GamePanel gp){
@@ -48,6 +52,10 @@ public class UI {
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;
+
+        monsterImagePath[0] = "/monster/spr_Blue_slime_idle_0.png";
+        monsterImagePath[1] = "/monster/spr_goblin_idle_0.png";
+        monsterImagePath[2] = "/monster/boy_red_left_1.png";
     }
 
     public UI(DIContainer container) {
@@ -143,9 +151,10 @@ public class UI {
         if (titleScreenState == 0) {
             g2.setColor(new Color(0, 0, 0));
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
             //Tilte Name
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 90F));
-            String text = "España Boy Adventure";
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 100F));
+            String text = "EPOCH QUEST";
             int x = getXForCentered(text);
             int y = gp.tileSize * 3;
             //Shadow
@@ -276,18 +285,52 @@ public class UI {
 
         System.out.println("Current Enemy Index: " + gp.currentEnemyIndex);
 
-        // Enemy Image
-        BufferedImage enemyImage = null;
-        if (gp.currentEnemyIndex != 999 && gp.currentEnemyIndex >= 0 && gp.currentEnemyIndex < gp.monsterImages.length) {
-            enemyImage = gp.monsterImages[gp.currentEnemyIndex];
-        } else {
-            System.out.println("No enemy in contact");
-        }
-
-        if (enemyImage != null) {
+        if (!entity.blueSlimeDerrotado){
             enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
             enemyY = gp.screenHeight * 2 / 3;
-            g2.drawImage(enemyImage, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
+
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/monster/spr_Blue_slime_idle_0.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (image != null) {
+                g2.drawImage(image, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
+            }
+        }
+        // Enemy Image
+        if (entity.blueSlimeDerrotado) {
+            enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
+            enemyY = gp.screenHeight * 2 / 3;
+
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/monster/spr_goblin_idle_0.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (image != null) {
+                g2.drawImage(image, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
+            }
+
+        }else if (entity.blueSlimeDerrotado && entity.goblinDerrotado) {
+            enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
+            enemyY = gp.screenHeight * 2 / 3;
+
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/monster/boy_red_left_1.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (image != null) {
+                g2.drawImage(image, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
+            }
+
         }
 
 
