@@ -2,6 +2,9 @@ package gui.entity;
 
 import gui.main.GamePanel;
 import gui.main.KeyHandler;
+import gui.object.OBJ_Shield_Wood;
+import gui.object.OBJ_Sword_Normal;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -42,10 +45,25 @@ public class Player extends Entity {
         direction="down";
 
         //Player status
+        level = 1;
         maxLife = 6;
         life = maxLife;
+        strength = 1;
+        dexterity = 1;
+        exp = 0;
+        nextLevelExp = 5;
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack();
+        defense = getDefense();
     }
 
+    public int getAttack(){
+        return attack = strength * currentWeapon.attackValue;
+    }
+    public int getDefense(){
+        return defense = dexterity * currentShield.defenseValue;
+    }
     public void getPlayerImage() {
         up1 = getImage("/player/blueBoy/boy_up_1.png",gp.tileSize,gp.tileSize);
         up2 = getImage("/player/blueBoy/boy_up_2.png",gp.tileSize,gp.tileSize);
@@ -178,6 +196,14 @@ public class Player extends Entity {
             invincible = false;
         }
         invincibleCounter = 0;
+    }
+    public void damageMonster(int i){
+        int damage  = attack - gp.monster[i].defense;
+
+        gp.monster[i].life -= damage;
+        if (gp.monster[i].life <= 0){
+
+        }
     }
 
 

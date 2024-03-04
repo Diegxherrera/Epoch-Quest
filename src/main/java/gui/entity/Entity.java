@@ -37,12 +37,25 @@ public class Entity {
     public int actionLockCounter = 0;
     public int invincibleCounter = 0;
 
-    //Character Status
+    //Character Stats
      public int type; //0 = players, 1 = npc, 2 = monster
      public String name;
      public int speed;
      public int maxLife;
      public int life;
+     public int level;
+     public int strength;
+     public int dexterity;
+     public int attack;
+     public int defense;
+     public int exp;
+     public int nextLevelExp;
+     public Entity currentWeapon;
+     public Entity currentShield;
+
+     //Item attributes
+    public int attackValue;
+    public int defenseValue;
 
     public Entity(GamePanel gp) {
         this.gp = gp;

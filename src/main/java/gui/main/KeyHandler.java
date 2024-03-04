@@ -208,6 +208,10 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_ENTER:
                     enterPressed = true;
                     break;
+
+                case KeyEvent.VK_C:
+                    gp.gameState = gp.characterState;
+                    break;
             }
 
 //            if (index != -1) {
@@ -232,6 +236,12 @@ public class KeyHandler implements KeyListener {
         //Dialogue State
        else if (gp.gameState == gp.dialogueState){
             if (code == KeyEvent.VK_ENTER){
+                gp.gameState = gp.playState;
+            }
+        }
+       //Character State
+        else if (gp.gameState == gp.characterState) {
+            if (code == KeyEvent.VK_C){
                 gp.gameState = gp.playState;
             }
         }
