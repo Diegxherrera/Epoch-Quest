@@ -209,6 +209,10 @@ public class Player extends Entity {
             invincible = true;
             invincibleCounter++;
         }
+        if (monsterIndex != 999 && gp.monster[10].collisionOn ){
+            gp.gameState = gp.battleState;
+            invincibleCounter ++;
+        }
         if (invincibleCounter >= 15){
             invincible = false;
         }
