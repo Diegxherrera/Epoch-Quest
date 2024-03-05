@@ -143,28 +143,11 @@ public class KeyHandler implements KeyListener {
                 gp.ui.commandNum = (gp.ui.commandNum + 1) % 4;
             }
             if (code == KeyEvent.VK_ENTER) {
+                enterPressed =true;
                 switch (gp.ui.commandNum) {
                     case 0:
-                        while (gp.player.life > 0 || gp.monster[10].life >0) {
-                            gp.combat.ataqueJugadorASlime();
-                            gp.combat.ataqueSlime();
-                            System.out.println(gp.player.life);
-                            System.out.println(gp.monster[10].life);
-                            if (gp.player.life <= 0){
-                                gp.player.isDead();
-                            }
-                             if (gp.monster[10].life <= 0){
-                                gp.gameState = gp.playState;
-                                System.out.println(gp.gameState);
-                                System.out.println("Has ganado el combate!!!");
-                                gp.player.invincible = true;
-                                gp.player.actionLockCounter++;
-                                if (gp.player.actionLockCounter == 60) {
-                                    gp.player.invincible = false;
-                                }
-                            }
-                        }
-
+                        // Inicia el temporizador del combate
+                        gp.combat.startCombatTimer();
                         break;
                     case 1:
 //                        ui.drawInventory();
@@ -308,6 +291,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D){
             rightPressed= false;
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            enterPressed = false; // Marcar que Enter fue liberado
         }
     }
 

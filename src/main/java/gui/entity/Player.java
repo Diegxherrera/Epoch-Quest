@@ -54,13 +54,14 @@ public class Player extends Entity {
         maxLife = 20;
         life = maxLife;
         strength = 5;
-        dexterity = 5;
+        dexterity = 3;
         exp = 0;
         nextLevelExp = 5;
         currentWeapon = new OBJ_Sword_Normal(gp);
         currentShield = new OBJ_Shield_Wood(gp);
         attack = getAttack();
         defense = getDefense();
+        dead = false;
     }
     public void setItems(){
         inventory.add(currentWeapon);
@@ -178,9 +179,9 @@ public class Player extends Entity {
                }
            }
        }
-           if (isDead()){
-               handleDeath();
-           }
+       else if (gp.gameState != gp.deadState) {
+           handleDeath();
+       }
     }
 
     public void pickUpObject(int i){
@@ -218,14 +219,7 @@ public class Player extends Entity {
         }
         invincibleCounter = 0;
     }
-    public void damageMonster(int i){
-        int damage  = attack - gp.monster[i].defense;
 
-        gp.monster[i].life -= damage;
-        if (gp.monster[i].life <= 0){
-
-        }
-    }
 
 
 
@@ -238,9 +232,9 @@ public class Player extends Entity {
 //            System.out.println("Game state: "+ gp.gameState);
 //        }
 //    }
-    public boolean isDead(){
-        return life <=0;
-    }
+public boolean isDead() {
+    return life <= 0;
+}
     private void handleDeath(){
         gp.gameState = gp.deadState;
         System.out.println("El jugador ha muerto, que pelele");

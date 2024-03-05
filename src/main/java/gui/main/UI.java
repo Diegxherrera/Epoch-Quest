@@ -38,6 +38,8 @@ public class UI {
     public int titleScreenState = 0; // 0: the first screen 1: the second screen
     private int currentEnemyIndex = -1; // Inicializado a -1 para indicar que no hay enemigo actual
     private String[] monsterImagePath = new String[3];
+    public boolean battleMenuVisible = false;
+
 
 
     public UI(GamePanel gp){
@@ -290,7 +292,7 @@ public class UI {
         playerY = gp.screenHeight / 2 - gp.tileSize * 2 ;
         g2.drawImage(gp.player.right1, playerX, playerY, gp.tileSize * 2, gp.tileSize * 2, null);
 
-        System.out.println("Current Enemy Index: " + gp.currentEnemyIndex);
+//        System.out.println("Current Enemy Index: " + gp.currentEnemyIndex);
 
         if (!gp.monster[10].blueSlimeDerrotado){
             enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;

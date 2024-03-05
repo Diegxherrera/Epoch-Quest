@@ -12,10 +12,10 @@ public class MON_BlueSlime extends Entity {
         this.gp = gp;
         type = 2;
         name = "Blue Slime";
-        maxLife = 10;
+        maxLife = 20;
         life = maxLife;
-        strength = 2;
-        dexterity = 2;
+        strength = 4;
+        dexterity = 4;
 
 
         solidArea.x = 3;
@@ -26,13 +26,28 @@ public class MON_BlueSlime extends Entity {
         solidAreaDefaultY = solidArea.y;
         esBoss = true;
         getImage();
+        dead = false;
+        if (isDead()){
+            handleDeath();
+        }
+
+    }
+    public boolean isDead(){
+        if (life <= 0){
+            return dead = true;
+        }
+        return dead;
+    }
+    private void handleDeath(){
+        gp.gameState = gp.playState;
+        System.out.println("Has derrotado al enemigo, bien hecho.");
 
     }
     public int getAttack(){
-        return attack = strength * (int) (Math.random()*3+1);
+        return attack = strength * (int) (Math.random()*3+2);
     }
     public int getDefense(){
-        return defense = dexterity * (int) (Math.random()*3+1);
+        return defense = dexterity * (int) (Math.random()*3+2);
     }
     public void getImage(){
         System.out.println("Loading images for GreenSlime");

@@ -53,6 +53,7 @@ public class Entity {
      public int nextLevelExp;
      public Entity currentWeapon;
      public Entity currentShield;
+     public boolean dead;
 
      //Item attributes
     public int attackValue;
@@ -62,6 +63,12 @@ public class Entity {
         this.gp = gp;
     }
     public void setAction(){}
+    public int getAttack(){
+        return attack;
+    }
+    public int getDefense(){
+        return defense;
+    }
 
     public void speak(){
         if (dialogueIndex > 3 ){
@@ -140,15 +147,18 @@ public class Entity {
 
         }
     }
-    public void playerContact(){
+    public void playerContact() {
         if (contactPlayer && !invincible) {
             gp.player.decreaseLife(1);
             invincible = true;
             invincibleCounter++;
         }
-        if (invincibleCounter >= 60){
+
+        if (invincibleCounter >= 60) {
             invincible = false;
+            contactPlayer = false; // Asegúrate de actualizar la condición aquí
         }
+
         invincibleCounter = 0;
     }
     public void update() {

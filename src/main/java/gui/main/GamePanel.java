@@ -99,10 +99,27 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread = new Thread(this);
         gameThread.start();
     }
-
-
+    // Dentro de la clase GamePanel
+    private class GameLogic implements Runnable {
+        @Override
+        public void run() {
+            while (gameThread != null) {
+                update();
+                try {
+                    Thread.sleep(16);  // Ajusta el tiempo de espera según sea necesario
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     @Override
     public void run() {
+        // Crea y inicia el hilo de lógica del juego
+        GameLogic gameLogic = new GameLogic();
+        Thread logicThread = new Thread(gameLogic);
+        logicThread.start();
+
         double drawInterval = (double) 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
@@ -110,16 +127,13 @@ public class GamePanel extends JPanel implements Runnable{
         long timer = 0;
         int drawCount = 0;
 
-        while (gameThread != null) {
+        while (gameThread != null ) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             timer += (currentTime - lastTime);
             lastTime = currentTime;
 
             if (delta >= 1) {
-                // Update
-                update();
-
                 // Draw
                 repaint();
                 delta--;
@@ -144,9 +158,14 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
             // Monstruos
-            for (Entity entity : monster) {
-                if (entity != null) {
-                    entity.update();
+            for (int i = 0; i < monster.length; i++) {
+                if (monster[i] != null) {
+                    if (!monster[i].dead){
+                        monster[i].update();
+                    }
+                    if (monster[i].dead){
+                        monster[i].update();
+                    }
                 }
             }
         }

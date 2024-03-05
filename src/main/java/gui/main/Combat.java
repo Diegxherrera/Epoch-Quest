@@ -1,15 +1,60 @@
 package gui.main;
 
+import gui.entity.Entity;
+
 public class Combat {
     GamePanel gp;
+    private boolean playerTurn;
+    private javax.swing.Timer combatTimer;
 
-    public Combat(GamePanel gp){
+
+    public Combat(GamePanel gp) {
         this.gp = gp;
+        this.playerTurn = true;
+
+        // Configurar el temporizador con una acción que se realiza en cada tic
+        combatTimer = new javax.swing.Timer(100, e -> turnoCombate());
     }
 
-    public void ataqueJugadorASlime(){
-        gp.monster[10].life -= gp.player.attack - gp.monster[10].defense;
+    public void ataqueJugadorASlime() {
+        if (gp.monster[10].life > 0) {
+            int damage = gp.player.attack - gp.monster[10].defense;
+            realizarAtaque(damage, gp.monster[10], "Jugador");
+        }
     }
+
+    public void ataqueSlime() {
+        if (!gp.monster[10].dead) {
+            int damage = gp.monster[10].getAttack() - gp.player.defense;
+            System.out.println("Slime ataca al jugador - Daño calculado: " + damage);
+            realizarAtaque(damage, gp.player, "Slime");
+
+            // Verificar si el jugador ha muerto después del ataque del monstruo
+            if (gp.player.dead) {
+                detenerCombate();
+            }
+        }
+    }
+
+
+    private void realizarAtaque(int damage, Entity target, String attackerName) {
+        if (damage > 0) {
+            target.life -= damage;
+
+            // Asegurar que la vida no sea menor que cero
+            if (target.life < 0) {
+                target.life = 0;
+            }
+        }
+
+        // Actualizar la interfaz después de cada ataque
+        gp.repaint();
+
+        // Mostrar la vida después del ataque
+        System.out.println(attackerName + " atacó a " + target.getClass().getSimpleName() + " - Vida restante: " + target.life);
+    }
+
+
     public void ataqueJugadorAGoblin(){
         gp.monster[11].life -= gp.player.attack - gp.monster[10].defense;
     }
@@ -17,9 +62,7 @@ public class Combat {
         gp.monster[12].life -= gp.player.attack - gp.monster[10].defense;
     }
 
-    public void ataqueSlime(){
-        gp.player.life -= gp.monster[10].attack - gp.player.defense;
-    }
+
     public void ataqueGoblin(){
         gp.player.life -= gp.monster[11].attack - gp.player.defense;
 
@@ -27,6 +70,90 @@ public class Combat {
     public void ataqueRedBoy(){
         gp.player.life -= gp.monster[12].attack - gp.player.defense;
 
+    }
+    public void startCombatTimer() {
+        combatTimer.start();
+    }
+
+    public void stopCombatTimer() {
+        combatTimer.stop();
+    }
+    public void stopCombat() {
+        // Detener el temporizador cuando el combate ha terminado
+        stopCombatTimer();
+        // También podrías realizar otras acciones de limpieza si es necesario
+    }
+
+
+    public void turnoCombate() {
+        if (playerTurn) {
+            if (gp.keyH.enterPressed) {
+                gp.keyH.enterPressed = false; // Reiniciar la bandera de Enter
+                ataqueJugadorASlime();
+                playerTurn = false; // Cambia al turno del enemigo
+            }
+        } else {
+            // Ataque del Slime solo cuando Enter fue presionado
+            if (gp.keyH.enterPressed) {
+                gp.keyH.enterPressed = false; // Reiniciar la bandera de Enter
+                ataqueSlime();
+                // Verificar si el jugador ha muerto después del ataque del monstruo
+                if (gp.player.dead) {
+                    detenerCombate();
+                } else {
+                    playerTurn = true; // Cambia al turno del jugador solo si el jugador no está muerto
+                }
+            }
+        }
+
+        // Verifica si alguien ha muerto después de cada turno
+        if (gp.player.dead || gp.monster[10].dead) {
+            detenerCombate();
+        }
+
+        // Repintar la interfaz después de cada turno
+        gp.repaint();
+    }
+
+
+    private void detenerCombate() {
+        // Detener el temporizador cuando el combate ha terminado
+        stopCombatTimer();
+
+        // Realizar limpieza adicional si es necesario
+        limpiarCombate();
+
+        // Cerrar el menú de batalla solo si el monstruo está vivo
+        if (!gp.monster[10].dead) {
+            gp.ui.battleMenuVisible = false;
+        }
+
+        // Realizar la transición de estados
+        if (gp.player.dead) {
+            // Si el jugador está muerto, transición al estado de muerte
+            System.out.println("Transición al estado de muerte");
+            gp.gameState = gp.deadState;
+        } else if (gp.monster[10].dead) {
+            // Si el monstruo está muerto, transición al estado de juego
+            System.out.println("Transición al estado de juego");
+            gp.gameState = gp.playState;
+        }
+    }
+
+
+
+    // Método para realizar limpieza adicional
+    private void limpiarCombate() {
+        // Reiniciar la vida de los personajes si no están muertos
+        if (!gp.player.dead) {
+            gp.player.life = gp.player.maxLife;
+        }
+
+        if (!gp.monster[10].dead) {
+            gp.monster[10].life = gp.monster[10].maxLife;
+        }
+
+        // También puedes realizar otras acciones de limpieza si es necesario
     }
 
 
