@@ -8,8 +8,6 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Juego 2D");
-//        ImageIcon icon = new ImageIcon("/logo.png");
-//        window.setIconImage(icon.getImage());d
 
         GamePanel gamePanel = new GamePanel();
 

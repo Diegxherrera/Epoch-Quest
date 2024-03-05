@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setObject();
         aSetter.setNPC();
         aSetter.setMonster();
+        aSetter.setBlueSlime();
 
         String[] monsterImagePaths = {
                 "/monster/spr_Blue_slime_idle_0.png",

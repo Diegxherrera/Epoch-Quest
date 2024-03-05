@@ -66,9 +66,6 @@ public class Entity {
         if (dialogueIndex > 3 ){
             dialogueIndex = 0;
         }
-        if (dialogueIndex == 3){
-            gp.aSetter.setBlueSlime();
-        }
         gp.ui.currentDialogue = dialogues[dialogueIndex];
         dialogueIndex++;
 

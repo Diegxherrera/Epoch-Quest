@@ -101,17 +101,17 @@ public class EventHandler {
 
     }
     public void getIntoCombatSlime(int col, int row, int gameState){
-        if (!entity.blueSlimeDerrotado && entity.dialogueIndex == 3){
+        if (!gp.monster[10].blueSlimeDerrotado && gp.npc[0].dialogueIndex == 3){
             gp.gameState = gp.battleState;
         }
     }
     public void getIntoCombatGoblin(int col, int row, int gameState){
-        if (entity.blueSlimeDerrotado && !entity.goblinDerrotado && entity.dialogueIndex ==7){
+        if (gp.monster[11].blueSlimeDerrotado && !gp.monster[11].goblinDerrotado && gp.npc[0].dialogueIndex ==7){
             gp.gameState = gp.battleState;
         }
     }
     public void getIntoCombatRedBoy(int col, int row, int gameState){
-        if (entity.blueSlimeDerrotado && entity.goblinDerrotado && entity.dialogueIndex == 11){
+        if (gp.monster[12].blueSlimeDerrotado && gp.monster[12].goblinDerrotado && gp.npc[0].dialogueIndex == 11){
             gp.gameState = gp.battleState;
         }
     }
