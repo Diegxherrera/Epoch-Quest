@@ -204,12 +204,12 @@ public class Player extends Entity {
     }
     public void contactMonster() {
         int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-        if (monsterIndex != 999 && !invincible) {
+        if (monsterIndex != 999 && !invincible && !esBoss) {
             decreaseLife(1);
             invincible = true;
             invincibleCounter++;
         }
-        if (monsterIndex != 999 && gp.monster[10].collisionOn ){
+        if (monsterIndex != 999 && esBoss == true ){
             gp.gameState = gp.battleState;
             invincibleCounter ++;
         }

@@ -20,6 +20,7 @@ public class MON_GreenSlime extends Entity {
         solidArea.height = 30;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        esBoss = false;
 
         getImage();
     }

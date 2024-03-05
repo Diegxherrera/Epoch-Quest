@@ -24,6 +24,7 @@ public class MON_BlueSlime extends Entity {
         solidArea.height = 30;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        esBoss = true;
         getImage();
 
     }

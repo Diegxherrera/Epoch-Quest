@@ -31,6 +31,7 @@ public class Entity {
     boolean contactPlayer;
     public boolean blueSlimeDerrotado = false;
     public boolean goblinDerrotado = false;
+    public boolean esBoss = false;
 
     //Counter
     public int spriteCounter = 0;

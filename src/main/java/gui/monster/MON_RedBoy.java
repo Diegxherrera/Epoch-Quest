@@ -21,6 +21,7 @@ public class MON_RedBoy extends Entity {
         solidArea.height = 30;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        esBoss = true;
         getImage();
 
 

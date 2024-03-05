@@ -23,6 +23,7 @@ public class MON_Goblin extends Entity {
         solidArea.height = 30;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        esBoss = true;
         getImage();
 
 

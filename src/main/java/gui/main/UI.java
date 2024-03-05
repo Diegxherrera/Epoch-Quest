@@ -292,7 +292,7 @@ public class UI {
 
         System.out.println("Current Enemy Index: " + gp.currentEnemyIndex);
 
-        if (!entity.blueSlimeDerrotado){
+        if (!gp.monster[10].blueSlimeDerrotado){
             enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
             enemyY = gp.screenHeight * 2 / 3;
 
@@ -308,7 +308,7 @@ public class UI {
             }
         }
         // Enemy Image
-        if (entity.blueSlimeDerrotado) {
+        if (gp.monster[11].blueSlimeDerrotado) {
             enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
             enemyY = gp.screenHeight * 2 / 3;
 
@@ -323,7 +323,7 @@ public class UI {
                 g2.drawImage(image, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
             }
 
-        }else if (entity.blueSlimeDerrotado && entity.goblinDerrotado) {
+        }else if (gp.monster[12].blueSlimeDerrotado && gp.monster[12].goblinDerrotado) {
             enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
             enemyY = gp.screenHeight * 2 / 3;
 
