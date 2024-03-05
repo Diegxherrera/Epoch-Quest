@@ -9,6 +9,8 @@ public class Main {
         window.setResizable(false);
         window.setTitle("Juego 2D");
 
+
+
         GamePanel gamePanel = new GamePanel();
 
         window.add(gamePanel);

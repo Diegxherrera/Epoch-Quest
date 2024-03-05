@@ -294,7 +294,7 @@ public class UI {
 
         if (!gp.monster[10].blueSlimeDerrotado){
             enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
-            enemyY = gp.screenHeight * 2 / 3;
+            enemyY = gp.screenHeight / 2 - gp.tileSize * 2;
 
             BufferedImage image = null;
             try {
@@ -310,7 +310,7 @@ public class UI {
         // Enemy Image
         if (gp.monster[11].blueSlimeDerrotado) {
             enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
-            enemyY = gp.screenHeight * 2 / 3;
+            enemyY = gp.screenHeight / 2 - gp.tileSize * 2;
 
             BufferedImage image = null;
             try {
@@ -325,7 +325,7 @@ public class UI {
 
         }else if (gp.monster[12].blueSlimeDerrotado && gp.monster[12].goblinDerrotado) {
             enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
-            enemyY = gp.screenHeight * 2 / 3;
+            enemyY = gp.screenHeight / 2 - gp.tileSize * 2;
 
             BufferedImage image = null;
             try {

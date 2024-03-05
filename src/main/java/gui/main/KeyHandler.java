@@ -145,8 +145,26 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_ENTER) {
                 switch (gp.ui.commandNum) {
                     case 0:
-//                        gp.monster[i].life -= gp.player.attack;
-                        attackSelected = true;
+                        while (gp.player.life > 0 || gp.monster[10].life >0) {
+                            gp.combat.ataqueJugadorASlime();
+                            gp.combat.ataqueSlime();
+                            System.out.println(gp.player.life);
+                            System.out.println(gp.monster[10].life);
+                            if (gp.player.life <= 0){
+                                gp.player.isDead();
+                            }
+                             if (gp.monster[10].life <= 0){
+                                gp.gameState = gp.playState;
+                                System.out.println(gp.gameState);
+                                System.out.println("Has ganado el combate!!!");
+                                gp.player.invincible = true;
+                                gp.player.actionLockCounter++;
+                                if (gp.player.actionLockCounter == 60) {
+                                    gp.player.invincible = false;
+                                }
+                            }
+                        }
+
                         break;
                     case 1:
 //                        ui.drawInventory();
