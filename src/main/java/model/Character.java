@@ -18,21 +18,30 @@ public abstract class   Character {
 
     public int getHealth(){ return health;}
     public void setHealth(int health){this.health = health;}
+    public int getStrength(){return strength;}
+    public void setStrength(int strength){this.strength=strength;}
+    public int getDefense(){return defense;}
+    public void setDefense(int defense){this.defense=defense;}
 
-
-    public void attack() {
-
+    public void attack(Player player,Enemy enemy , Weapon weapon) {
+        enemy.setEnemyHealth(enemy.getEnemyHealth()-(player.getStrength()+weapon.getDamageHealth()));
     }
 
-    public void defend() {
+    public void defend(Player player, Enemy enemy, Weapon weapon) {
 
+        if(enemy.getDefense()>0){
+            enemy.setEnemyHealth(enemy.getEnemyHealth()-(player.getStrength()+weapon.getDamageHealth()));
+        }else{
+            enemy.setDefense(enemy.getDefense()-(player.getStrength()+weapon.getDamageHealth()));
+        }
     }
 
-    public void takeDamage() {
-        
+    public void takeDamage(Player player, Enemy enemy) {
+        player.setPlayerHealth(player.getPlayerHealth()-enemy.chooseAction());
     }
 
-    public void cureHealth(){
+    public void cureHealth(Player player, Enemy enemy,Potion potion){
+        player.setPlayerHealth(player.getPlayerHealth()+potion.getCuredHealth());
 
     }
 

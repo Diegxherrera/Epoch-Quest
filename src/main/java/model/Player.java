@@ -12,11 +12,12 @@ public class Player extends Character {
     }
 
 
-    void setPlayerHealth(int health){
+
+    public void setPlayerHealth(int health){
         this.setHealth(health);
     }
 
-    int getPlayerHealth(){
+    public int getPlayerHealth(){
         return this.getHealth();
     }
 
@@ -28,9 +29,8 @@ public class Player extends Character {
     public void dropItem() {
         this.personalInventory.dropItem();
     }
-
-    public void takeDamage(Weapon weapon) {
-        this.setPlayerHealth(getHealth()-weapon.getDamageHealth());
+    public void takeDamage(Enemy enemy) {
+        this.setPlayerHealth(getHealth()-enemy.chooseAction());
     }
     public void cureHealth(Potion potion){
         this.setPlayerHealth(getPlayerHealth()+potion.getCuredHealth());
