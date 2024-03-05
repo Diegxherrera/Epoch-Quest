@@ -10,10 +10,13 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
     private DIContainer container;
     private UI keyHandlerUi;
+    UI ui;
     GamePanel gp;
     Entity entity;
     Player player;
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
+    public boolean attackSelected = false;
+    public boolean magicSelected = false;
     //Debug
     boolean checkDrawTime = false;
     int index = 0;
@@ -142,19 +145,24 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_ENTER) {
                 switch (gp.ui.commandNum) {
                     case 0:
-                        // Sistema para atacar
+//                        gp.monster[i].life -= gp.player.attack;
+                        attackSelected = true;
                         break;
                     case 1:
-                        // Sistema para acceder al menú y elegir objetos desde allí
+//                        ui.drawInventory();
+//                        if (code == KeyEvent.VK_C){
+//
+//                        }
                         break;
                     case 2:
-                        // Sistema para elegir la magia que quieras hacer
+                        player.magic();
+                        magicSelected = true;
                         break;
                     case 3:
                         gp.gameState = gp.playState;
                             entity.invincible = true;
                             entity.actionLockCounter++;
-                            if (entity.actionLockCounter == 120) {
+                            if (entity.actionLockCounter == 60) {
                                 entity.invincible = false;
                         }
                         break;
