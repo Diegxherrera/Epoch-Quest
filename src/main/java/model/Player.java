@@ -34,6 +34,9 @@ public class Player extends Character {
     }
     public void cureHealth(Potion potion){
         this.setPlayerHealth(getPlayerHealth()+potion.getCuredHealth());
+        if(this.getPlayerHealth()>6) {
+            this.setPlayerHealth(6);
+        }
     }
 
     public void levelUp() {

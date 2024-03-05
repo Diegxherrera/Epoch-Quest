@@ -1,5 +1,7 @@
 package gui.main;
 
+import gui.entity.Entity;
+
 import java.awt.*;
 
 public class EventHandler {
@@ -7,6 +9,7 @@ public class EventHandler {
     EventRect[][] eventRect;
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
+    Entity entity;
 
     public EventHandler(GamePanel gp){
         this.gp = gp;
@@ -38,18 +41,24 @@ public class EventHandler {
             canTouchEvent = true;
         }
         if (canTouchEvent == true) {
-//            if (hit(27, 16, "right") == true) {
-//                damagePit(27, 16, gp.dialogueState);
-//            }
-//            if (hit(23, 19, "any") == true) {
-//                damagePit(23, 19, gp.dialogueState);
-//            }
-//       if (hit(27,16,"right") == true){
-//            teleport(gp.dialogueState);
-//        }
-//            if (hit(23, 12, "up") == true) {
-//                healingPool(23, 12, gp.dialogueState);
-//            }
+            if (hit(165/3,63,"down") == true){
+                getIntoCombatSlime(165/3,63, gp.playState);
+            }
+            if (hit(261/3,87,"down")== true){
+                getIntoCombatGoblin(261/3,87,gp.playState);
+            }
+            if (hit(243/3,22,"down")==true){
+                getIntoCombatRedBoy(243/3,22, gp.playState);
+            }
+            if (hit(57/3,37,"up")==true
+                || hit(60/3,37,"up")==true || hit(63/3,37,"up")==true
+                || hit(66/3,37,"up")==true || hit(69/3,37,"up")==true){
+                healingPool(57/3,37, gp.playState);
+                healingPool(60/3,37, gp.playState);
+                healingPool(63/3,37, gp.playState);
+                healingPool(66/3,37, gp.playState);
+                healingPool(69/3,37, gp.playState);
+            }
         }
     }
     public boolean hit(int col, int row, String reqDirection){
@@ -87,10 +96,23 @@ public class EventHandler {
         canTouchEvent = false;
     }
     public void healingPool(int col,int row,int gameState){
-        if (gp.keyH.enterPressed == true){
             gp.gameState = gameState;
-            gp.ui.currentDialogue = "You drink the water. \nYour life has been recovered";
             gp.player.life = gp.player.maxLife;
+
+    }
+    public void getIntoCombatSlime(int col, int row, int gameState){
+        if (!entity.blueSlimeDerrotado){
+            gp.gameState = gp.battleState;
+        }
+    }
+    public void getIntoCombatGoblin(int col, int row, int gameState){
+        if (entity.blueSlimeDerrotado && !entity.goblinDerrotado){
+            gp.gameState = gp.battleState;
+        }
+    }
+    public void getIntoCombatRedBoy(int col, int row, int gameState){
+        if (entity.blueSlimeDerrotado && entity.goblinDerrotado){
+            gp.gameState = gp.battleState;
         }
     }
 }

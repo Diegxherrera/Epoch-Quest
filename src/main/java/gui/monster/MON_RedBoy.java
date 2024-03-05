@@ -13,6 +13,8 @@ public class MON_RedBoy extends Entity {
         speed = 1;
         maxLife = 30;
         life = maxLife;
+        strength = 4;
+        dexterity = 5;
         solidArea.x = 3;
         solidArea.y = 18;
         solidArea.width = 42;
@@ -22,6 +24,12 @@ public class MON_RedBoy extends Entity {
         getImage();
 
 
+    }
+    public int getAttack(){
+        return attack = strength * (int) (Math.random()*3+1);
+    }
+    public int getDefense(){
+        return defense = dexterity * (int) (Math.random()*3+1);
     }
 
     public void getImage(){

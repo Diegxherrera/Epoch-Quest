@@ -14,6 +14,10 @@ public class MON_BlueSlime extends Entity {
         name = "Blue Slime";
         maxLife = 10;
         life = maxLife;
+        strength = 2;
+        dexterity = 2;
+
+
         solidArea.x = 3;
         solidArea.y = 18;
         solidArea.width = 42;
@@ -23,7 +27,12 @@ public class MON_BlueSlime extends Entity {
         getImage();
 
     }
-
+    public int getAttack(){
+        return attack = strength * (int) (Math.random()*3+1);
+    }
+    public int getDefense(){
+        return defense = dexterity * (int) (Math.random()*3+1);
+    }
     public void getImage(){
         System.out.println("Loading images for GreenSlime");
 

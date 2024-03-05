@@ -15,6 +15,8 @@ public class MON_Goblin extends Entity {
         speed = 1;
         maxLife = 10;
         life = maxLife;
+        strength = 3;
+        dexterity = 3;
         solidArea.x = 3;
         solidArea.y = 18;
         solidArea.width = 42;
@@ -23,10 +25,13 @@ public class MON_Goblin extends Entity {
         solidAreaDefaultY = solidArea.y;
         getImage();
 
-        // Verifica si las imágenes se han cargado correctamente
-        if (up1 == null || up2 == null || down1 == null || down2 == null || left1 == null || left2 == null || right1 == null || right2 == null) {
-            System.out.println("Error: Al menos una de las imágenes es nula en MON_GreenSlime.");
-        }
+
+    }
+    public int getAttack(){
+        return attack = strength * (int) (Math.random()*3+1);
+    }
+    public int getDefense(){
+        return defense = dexterity * (int) (Math.random()*3+1);
     }
 
     public void getImage(){

@@ -2,11 +2,13 @@ package gui.entity;
 
 import gui.main.GamePanel;
 import gui.main.KeyHandler;
+import gui.object.OBJ_Key;
 import gui.object.OBJ_Shield_Wood;
 import gui.object.OBJ_Sword_Normal;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Player extends Entity {
 
@@ -14,6 +16,8 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
+    public ArrayList<Entity> inventory  = new ArrayList<>();
+    public final int inventorySize = 20;
 
 
     public Player(GamePanel gp, KeyHandler keyH){
@@ -35,6 +39,7 @@ public class Player extends Entity {
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
+        setItems();
     }
 
     public void setDefaultValues(){
@@ -46,10 +51,10 @@ public class Player extends Entity {
 
         //Player status
         level = 1;
-        maxLife = 6;
+        maxLife = 20;
         life = maxLife;
-        strength = 1;
-        dexterity = 1;
+        strength = 5;
+        dexterity = 5;
         exp = 0;
         nextLevelExp = 5;
         currentWeapon = new OBJ_Sword_Normal(gp);
@@ -57,12 +62,24 @@ public class Player extends Entity {
         attack = getAttack();
         defense = getDefense();
     }
+    public void setItems(){
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+        inventory.add(new OBJ_Key(gp));
+        inventory.add(new OBJ_Key(gp));
+    }
 
     public int getAttack(){
         return attack = strength * currentWeapon.attackValue;
     }
     public int getDefense(){
         return defense = dexterity * currentShield.defenseValue;
+    }
+    public int magic(){
+        if (life < maxLife){
+            return life += 3;
+        }
+        return life;
     }
     public void getPlayerImage() {
         up1 = getImage("/player/blueBoy/boy_up_1.png",gp.tileSize,gp.tileSize);

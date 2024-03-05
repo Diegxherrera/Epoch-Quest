@@ -61,6 +61,7 @@ public class Entity {
         this.gp = gp;
     }
     public void setAction(){}
+
     public void speak(){
         if (dialogueIndex > 3 ){
             dialogueIndex = 0;

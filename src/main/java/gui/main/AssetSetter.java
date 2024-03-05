@@ -68,14 +68,14 @@ public class AssetSetter {
         gp.monster[10].worldY = gp.tileSize*63;
     }
     public void setGoblin(){
-        gp.monster[10] = new MON_Goblin(gp);
-        gp.monster[10].worldX = gp.tileSize*261/3;
-        gp.monster[10].worldY = gp.tileSize*88;
+        gp.monster[11] = new MON_Goblin(gp);
+        gp.monster[11].worldX = gp.tileSize*261/3;
+        gp.monster[11].worldY = gp.tileSize*88;
     }
     public void setRedBoy(){
-        gp.monster[10] = new MON_RedBoy(gp);
-        gp.monster[10].worldX = gp.tileSize*243/3;
-        gp.monster[10].worldY = gp.tileSize*21;
+        gp.monster[12] = new MON_RedBoy(gp);
+        gp.monster[12].worldX = gp.tileSize*243/3;
+        gp.monster[12].worldY = gp.tileSize*21;
     }
 
 }
