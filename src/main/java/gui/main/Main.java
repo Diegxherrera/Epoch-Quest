@@ -1,5 +1,4 @@
 package gui.main;
-
 import javax.swing.*;
 
 public class Main {
@@ -10,7 +9,7 @@ public class Main {
         window.setResizable(false);
         window.setTitle("Juego 2D");
 //        ImageIcon icon = new ImageIcon("/logo.png");
-//        window.setIconImage(icon.getImage());
+//        window.setIconImage(icon.getImage());d
 
         GamePanel gamePanel = new GamePanel();
 

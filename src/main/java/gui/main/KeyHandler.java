@@ -116,15 +116,15 @@ public class KeyHandler implements KeyListener {
                 if (code == KeyEvent.VK_ENTER) {
                     if (gp.ui.commandNum == 0) {   //Picking a fighter
                         gp.gameState = gp.playState;
-                        gp.playMusic(0);
+//                        gp.playMusic(0);
                     }
                     if (gp.ui.commandNum == 1) {  //Picking a thief
                         gp.gameState = gp.playState;
-                        gp.playMusic(0);
+//                        gp.playMusic(0);
                     }
                     if (gp.ui.commandNum == 2){  //Picking a sorcerer
                         gp.gameState = gp.playState;
-                        gp.playMusic(0);
+//                        gp.playMusic(0);
                     }
                     if (gp.ui.commandNum == 3) {
                         gp.ui.titleScreenState =0;
@@ -134,10 +134,10 @@ public class KeyHandler implements KeyListener {
         }
         if (gp.gameState == gp.battleState) {
             if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
-                gp.ui.commandNum = (gp.ui.commandNum - 1 + 4) % 4; // Asegura que commandNum esté en el rango [0, 3]
+                gp.ui.commandNum = (gp.ui.commandNum - 1 + 4) % 4;
             }
             if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
-                gp.ui.commandNum = (gp.ui.commandNum + 1) % 4; // Asegura que commandNum esté en el rango [0, 3]
+                gp.ui.commandNum = (gp.ui.commandNum + 1) % 4;
             }
             if (code == KeyEvent.VK_ENTER) {
                 switch (gp.ui.commandNum) {
@@ -152,20 +152,15 @@ public class KeyHandler implements KeyListener {
                         break;
                     case 3:
                         gp.gameState = gp.playState;
-                        entity.invincible = true;
-                        entity.actionLockCounter++;
-                        if(entity.actionLockCounter ==120){
-                            entity.invincible = false;
+                            entity.invincible = true;
+                            entity.actionLockCounter++;
+                            if (entity.actionLockCounter == 120) {
+                                entity.invincible = false;
                         }
                         break;
-                    // Agrega más casos según sea necesario
                 }
             }
         }
-
-
-
-
         if (gp.gameState == gp.playState) {
             switch (code) {
                 case KeyEvent.VK_W:
@@ -213,6 +208,10 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_ENTER:
                     enterPressed = true;
                     break;
+
+                case KeyEvent.VK_C:
+                    gp.gameState = gp.characterState;
+                    break;
             }
 
 //            if (index != -1) {
@@ -224,11 +223,7 @@ public class KeyHandler implements KeyListener {
 
             //Debug
             if (code == KeyEvent.VK_T) {
-                if (!checkDrawTime) {
-                    checkDrawTime = true;
-                } else if (checkDrawTime) {
-                    checkDrawTime = false;
-                }
+                checkDrawTime = !checkDrawTime;
 
             }
         }
@@ -241,6 +236,12 @@ public class KeyHandler implements KeyListener {
         //Dialogue State
        else if (gp.gameState == gp.dialogueState){
             if (code == KeyEvent.VK_ENTER){
+                gp.gameState = gp.playState;
+            }
+        }
+       //Character State
+        else if (gp.gameState == gp.characterState) {
+            if (code == KeyEvent.VK_C){
                 gp.gameState = gp.playState;
             }
         }

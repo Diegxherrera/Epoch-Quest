@@ -4,9 +4,11 @@ import gui.main.GamePanel;
 import gui.main.UtilityTool;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class Entity {
     GamePanel gp;
@@ -26,27 +28,45 @@ public class Entity {
     public boolean collisionOn = false;
     public boolean invincible = false;
     boolean attacking = false;
+    boolean contactPlayer;
+    public boolean blueSlimeDerrotado = false;
+    public boolean goblinDerrotado = false;
 
     //Counter
     public int spriteCounter = 0;
     public int actionLockCounter = 0;
     public int invincibleCounter = 0;
 
-    //Character Status
+    //Character Stats
      public int type; //0 = players, 1 = npc, 2 = monster
      public String name;
      public int speed;
      public int maxLife;
      public int life;
+     public int level;
+     public int strength;
+     public int dexterity;
+     public int attack;
+     public int defense;
+     public int exp;
+     public int nextLevelExp;
+     public Entity currentWeapon;
+     public Entity currentShield;
 
+     //Item attributes
+    public int attackValue;
+    public int defenseValue;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
     }
     public void setAction(){}
     public void speak(){
-        if (dialogues[dialogueIndex] == null){
+        if (dialogueIndex > 3 ){
             dialogueIndex = 0;
+        }
+        if (dialogueIndex == 3){
+            gp.aSetter.setBlueSlime();
         }
         gp.ui.currentDialogue = dialogues[dialogueIndex];
         dialogueIndex++;
@@ -67,20 +87,81 @@ public class Entity {
         }
 
     }
-    public void update(){
+    public void speak1Boss(){
+        if (blueSlimeDerrotado){
+            dialogueIndex = 4;
+            if (dialogueIndex >= 7){
+                dialogueIndex = 4;
+                gp.aSetter.setGoblin();
+            }
+            gp.ui.currentDialogue = dialogues[dialogueIndex];
+            dialogueIndex++;
+
+            switch (gp.player.direction){
+                case"up":
+                    direction = "down";
+                    break;
+                case"down":
+                    direction = "up";
+                    break;
+                case"left":
+                    direction = "right";
+                    break;
+                case"right":
+                    direction = "left";
+                    break;
+            }
+
+        }
+    }
+    public void speak2Boss(){
+        if (goblinDerrotado){
+            dialogueIndex = 8;
+            if (dialogueIndex >= 11){
+                dialogueIndex = 8;
+                gp.aSetter.setRedBoy();
+            }
+            gp.ui.currentDialogue = dialogues[dialogueIndex];
+            dialogueIndex++;
+
+            switch (gp.player.direction){
+                case"up":
+                    direction = "down";
+                    break;
+                case"down":
+                    direction = "up";
+                    break;
+                case"left":
+                    direction = "right";
+                    break;
+                case"right":
+                    direction = "left";
+                    break;
+            }
+
+        }
+    }
+    public void playerContact(){
+        if (contactPlayer && !invincible) {
+            gp.player.decreaseLife(1);
+            invincible = true;
+            invincibleCounter++;
+        }
+        if (invincibleCounter >= 60){
+            invincible = false;
+        }
+        invincibleCounter = 0;
+    }
+    public void update() {
         setAction();
         collisionOn = false;
         gp.cChecker.checkTile(this);
         gp.cChecker.checkObject(this, false);
         gp.cChecker.checkEntity(this, gp.npc);
         gp.cChecker.checkEntity(this, gp.monster);
-        boolean contactPlayer = gp.cChecker.checkPlayer(this);
-        if (this.type == 2 && contactPlayer){
-            if (!gp.player.invincible){
-                gp.gameState = gp.battleState;
-                gp.player.invincible = true;
-            }
-        }
+        contactPlayer = gp.cChecker.checkPlayer(this);
+        playerContact();
+
 
         if (!collisionOn) {
             switch (direction) {
@@ -157,16 +238,24 @@ public class Entity {
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
         }
     }
-    public BufferedImage setUp (String imagePath, int width, int height){
+    public BufferedImage getImage(String imagePath, int width, int height) {
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(getClass().getResourceAsStream(imagePath + ".png"));
-            image = uTool.scaleImage(image, width, height);
+            InputStream inputStream = getClass().getResourceAsStream(imagePath);
+            if (inputStream != null) {
+                image = ImageIO.read(inputStream);
+                image = uTool.scaleImage(image, width, height);
+            } else {
+                System.out.println("Error: InputStream is null for imagePath: " + imagePath);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return image;
     }
-}
+
+
+
+     }

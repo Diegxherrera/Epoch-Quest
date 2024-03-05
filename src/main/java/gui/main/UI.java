@@ -5,10 +5,13 @@ import gui.entity.Entity;
 import gui.object.OBJ_Heart;
 import utils.DIContainer;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Objects;
 
 
 public class UI {
@@ -30,8 +33,12 @@ public class UI {
     public String currentDialogue = "";
     public int commandNum = 0;
     public int titleScreenState = 0; // 0: the first screen 1: the second screen
+    private int currentEnemyIndex = -1; // Inicializado a -1 para indicar que no hay enemigo actual
+    private String[] monsterImagePath = new String[3];
+
 
     public UI(GamePanel gp){
+
         this.gp = gp;
         try {
             InputStream is = getClass().getResourceAsStream("/font/x12y16pxMaruMonica.ttf");
@@ -45,6 +52,10 @@ public class UI {
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;
+
+        monsterImagePath[0] = "/monster/spr_Blue_slime_idle_0.png";
+        monsterImagePath[1] = "/monster/spr_goblin_idle_0.png";
+        monsterImagePath[2] = "/monster/boy_red_left_1.png";
     }
 
     public UI(DIContainer container) {
@@ -93,6 +104,9 @@ public class UI {
         if (gp.gameState == gp.deadState){
             drawDeathScreen();
         }
+        if (gp.gameState == gp.characterState){
+            drawCharacterScreen();
+        }
 
     }
 
@@ -140,9 +154,10 @@ public class UI {
         if (titleScreenState == 0) {
             g2.setColor(new Color(0, 0, 0));
             g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
             //Tilte Name
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 90F));
-            String text = "España Boy Adventure";
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 100F));
+            String text = "EPOCH QUEST";
             int x = getXForCentered(text);
             int y = gp.tileSize * 3;
             //Shadow
@@ -271,11 +286,57 @@ public class UI {
         playerY = gp.screenHeight / 2 - gp.tileSize * 2 ;
         g2.drawImage(gp.player.right1, playerX, playerY, gp.tileSize * 2, gp.tileSize * 2, null);
 
+        System.out.println("Current Enemy Index: " + gp.currentEnemyIndex);
+
+        if (!entity.blueSlimeDerrotado){
+            enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
+            enemyY = gp.screenHeight * 2 / 3;
+
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/monster/spr_Blue_slime_idle_0.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (image != null) {
+                g2.drawImage(image, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
+            }
+        }
         // Enemy Image
-        enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
-        enemyY = gp.screenHeight * 2 / 3;
-        // g2.drawImage(entity.left1, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
-        // Se necesita un método para determinar qué monstruo es
+        if (entity.blueSlimeDerrotado) {
+            enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
+            enemyY = gp.screenHeight * 2 / 3;
+
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/monster/spr_goblin_idle_0.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (image != null) {
+                g2.drawImage(image, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
+            }
+
+        }else if (entity.blueSlimeDerrotado && entity.goblinDerrotado) {
+            enemyX = (gp.screenWidth - gp.screenWidth / 5) - gp.tileSize / 2;
+            enemyY = gp.screenHeight * 2 / 3;
+
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/monster/boy_red_left_1.png")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (image != null) {
+                g2.drawImage(image, enemyX, enemyY, gp.tileSize * 2, gp.tileSize * 2, null);
+            }
+
+        }
+
+
 
         // Menú
         drawBattleMenu();
@@ -368,12 +429,104 @@ public class UI {
 
     }
 
+    public void drawCharacterScreen(){
+        //Create a Frame
+        final int frameX = gp.tileSize;
+        final int frameY = gp.tileSize;
+        final int frameWidth = gp.tileSize * 5;
+        final int frameHeight = gp.tileSize * 10;
+        drawSubWindow(frameX,frameY,frameWidth,frameHeight);
 
+        //Text
+        g2.setColor(Color.WHITE);
+        g2.setFont(g2.getFont().deriveFont(32F));
 
+        int textX = frameX + 20;
+        int textY = frameY + gp.tileSize;
+        final int lineHeight = 35;
 
+        //Names
+        g2.drawString("Level", textX,textY);
+        textY += lineHeight;
+        g2.drawString("Life", textX,textY);
+        textY += lineHeight;
+        g2.drawString("Strength", textX,textY);
+        textY += lineHeight;
+        g2.drawString("Dexterity", textX,textY);
+        textY += lineHeight;
+        g2.drawString("Attack", textX,textY);
+        textY += lineHeight;
+        g2.drawString("Defense", textX,textY);
+        textY += lineHeight;
+        g2.drawString("Exp", textX,textY);
+        textY += lineHeight;
+        g2.drawString("Next Level", textX,textY);
+        textY += lineHeight + 20;
+        g2.drawString("Weapon", textX,textY);
+        textY += lineHeight + 15;
+        g2.drawString("Shield", textX,textY);
+        textY += lineHeight;
+
+        //Values
+        int tailX = (frameX + frameWidth) - 30;
+        textY = frameY + gp.tileSize;
+        String value;
+
+        value = String.valueOf(gp.player.level);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value, textX,textY);
+        textY += lineHeight;
+        value = String.valueOf(gp.player.life + "/" + gp.player.maxLife);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value, textX,textY);
+        textY += lineHeight;
+        value = String.valueOf(gp.player.strength);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value, textX,textY);
+        textY += lineHeight;
+        value = String.valueOf(gp.player.dexterity);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value, textX,textY);
+        textY += lineHeight;
+        value = String.valueOf(gp.player.attack);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value, textX,textY);
+        textY += lineHeight;
+        value = String.valueOf(gp.player.defense);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value, textX,textY);
+        textY += lineHeight;
+        value = String.valueOf(gp.player.exp);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value, textX,textY);
+        textY += lineHeight;
+        value = String.valueOf(gp.player.nextLevelExp);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value, textX,textY);
+        textY += lineHeight;
+
+        g2.drawImage(gp.player.currentWeapon.down1,tailX - gp.tileSize, textY - 14, null );
+        textY += gp.tileSize;
+        g2.drawImage(gp.player.currentShield.down1, tailX - gp.tileSize, textY - 14,null);
+
+    }
+    public void drawSubWindow(int x, int y, int width, int height){
+        Color c = new Color(0,0,0,210);
+        g2.setColor(c);
+        g2.fillRoundRect(x,y,width,height,35,35);
+
+        c = new Color(255,255,255);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(x+5,y+5,width-10,height-10,25,25);
+    }
     public int getXForCentered(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gp.screenWidth/2 - length/2;
+    }
+    public int getXForAlignToRightText(String text, int tailX){
+        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        return tailX - length;
     }
     public int getXForBattleMenu(String text, int position){
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();

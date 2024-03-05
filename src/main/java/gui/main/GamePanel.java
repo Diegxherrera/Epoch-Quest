@@ -2,10 +2,12 @@ package gui.main;
 
 import gui.entity.Entity;
 import gui.entity.Player;
+import gui.monster.MON_GreenSlime;
 import gui.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,7 +46,12 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity[] npc = new Entity[10];
     public Entity[] monster = new Entity[20];
     ArrayList<Entity> entityList = new ArrayList<>();
-    
+    BufferedImage[] monsterImages;
+    int currentEnemyIndex = 999; // Inicializado a -1 para indicar que no hay enemigo actual
+
+
+
+
     //Game State
     public int gameState;
     public final int titleState = 0;
@@ -53,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int dialogueState = 3;
     public final int battleState = 4;
     public final int deadState = 5;
+    public final int characterState = 6;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -65,7 +73,21 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setObject();
         aSetter.setNPC();
         aSetter.setMonster();
-       // playMusic(0);
+
+        String[] monsterImagePaths = {
+                "/monster/spr_Blue_slime_idle_0.png",
+                "/monster/spr_goblin_idle_0.png",
+                // Otras rutas de imágenes según sea necesario
+        };
+        int monsterImageWidth = tileSize;
+        int monsterImageHeight = tileSize;
+        monsterImages = new BufferedImage[monsterImagePaths.length];
+        for (int i = 0; i < monsterImagePaths.length; i++) {
+            monsterImages[i] = getMonsterImage(i, monsterImagePaths[i], monsterImageWidth, monsterImageHeight);
+        }
+
+
+        // playMusic(0);
         gameState = titleState;
     }
 
@@ -77,49 +99,50 @@ public class GamePanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
-        double drawInterval = (double) 1000000000 /FPS;
+        double drawInterval = (double) 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
-        int drawCount= 0;
+        int drawCount = 0;
 
-        while(gameThread != null){
+        while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
-            timer += (currentTime-lastTime);
+            timer += (currentTime - lastTime);
             lastTime = currentTime;
 
             if (delta >= 1) {
-                //Update
+                // Update
                 update();
 
-                //Draw
+                // Draw
                 repaint();
                 delta--;
                 drawCount++;
             }
-            if (timer >= 1000000000){
-                System.out.println("FPS: " +drawCount);
-                drawCount=0;
-                timer=0;
+            if (timer >= 1000000000) {
+                System.out.println("FPS: " + drawCount);
+                drawCount = 0;
+                timer = 0;
             }
         }
     }
 
-    public void update(){
-        if (gameState == playState){
-            //Player
+    public void update() {
+        if (gameState == playState) {
+            // Player
             player.update();
-            //NPC
-            for (int i = 0; i < npc.length; i++) {
-                if (npc[i] != null){
-                    npc[i].update();
+            // NPC
+            for (Entity entity : npc) {
+                if (entity != null) {
+                    entity.update();
                 }
             }
-            for (int i = 0; i < monster.length; i++) {
-                if (monster[i] != null) {
-                    monster[i].update();
+            // Monstruos
+            for (Entity entity : monster) {
+                if (entity != null) {
+                    entity.update();
                 }
             }
         }
@@ -175,12 +198,9 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
             //Sort
-            Collections.sort(entityList, new Comparator<Entity>() {
-                @Override
-                public int compare(Entity e1, Entity e2) {
-                    int result = Integer.compare(e1.worldY, e2.worldY);
-                    return result;
-                }
+            entityList.sort((e1, e2) -> {
+                int result = Integer.compare(e1.worldY, e2.worldY);
+                return result;
             });
             //Draw Entities
             for (int i = 0; i < entityList.size(); i++) {
@@ -202,6 +222,13 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
         g2.dispose();
+    }
+
+    public BufferedImage getMonsterImage(int index, String imagePath, int width, int height) {
+        if (monster[index] != null) {
+            return monster[index].getImage(imagePath, width, height);
+        }
+        return null;
     }
 
     public void playMusic(int i){

@@ -14,21 +14,29 @@ public class NPC_OldMan extends Entity {
     }
     public void getImage() {
 
-        up1 = setUp("/npc/oldman_up_1",gp.tileSize,gp.tileSize);
-        up2 = setUp("/npc/oldman_up_2",gp.tileSize,gp.tileSize);
-        down1 = setUp("/npc/oldman_down_1",gp.tileSize,gp.tileSize);
-        down2 = setUp("/npc/oldman_down_2",gp.tileSize,gp.tileSize);
-        left1 = setUp("/npc/oldman_left_1",gp.tileSize,gp.tileSize);
-        left2 = setUp("/npc/oldman_left_2",gp.tileSize,gp.tileSize);
-        right1 = setUp("/npc/oldman_right_1",gp.tileSize,gp.tileSize);
-        right2 = setUp("/npc/oldman_right_2",gp.tileSize,gp.tileSize);
+        up1 = getImage("/npc/oldman_up_1.png",gp.tileSize,gp.tileSize);
+        up2 = getImage("/npc/oldman_up_2.png",gp.tileSize,gp.tileSize);
+        down1 = getImage("/npc/oldman_down_1.png",gp.tileSize,gp.tileSize);
+        down2 = getImage("/npc/oldman_down_2.png",gp.tileSize,gp.tileSize);
+        left1 = getImage("/npc/oldman_left_1.png",gp.tileSize,gp.tileSize);
+        left2 = getImage("/npc/oldman_left_2.png",gp.tileSize,gp.tileSize);
+        right1 = getImage("/npc/oldman_right_1.png",gp.tileSize,gp.tileSize);
+        right2 = getImage("/npc/oldman_right_2.png",gp.tileSize,gp.tileSize);
 
     }
     public void setDialgue(){
-        dialogues[0] = "Hey, you. You're finally awake.";
-        dialogues[1] = "You were trying to cross the border, right? \nWalked right into that Imperial ambush, \nsame as us, and that thief over there.";
-        dialogues[2] = "Damn you Stormcloaks. \nSkyrim was fine until you came along.";
-        dialogues[3] = "Empire was nice and lazy. \nIf they hadn't been looking for you, \nI could've stolen that horse and \nbe halfway to Hammerfell.";
+        dialogues[0] = "Hey, tu. Por fin te has despertado.";
+        dialogues[1] = "Nuestra region se encuentra en gran peligro\n y solo tu nos puedes salvar";
+        dialogues[2] = "Dirigete al sureste alli encontraras\n a un enemigo peligroso \n al que debes derrotar.";
+        dialogues[3] = "Ten cuidado con los limos que te encontraras,\n si los tocas atacaran. Buena suerte.";
+        dialogues[4] = "Bien hecho derrotando a ese monstruo.";
+        dialogues[5] = "Por desgracia eso no es todo.";
+        dialogues[6] = "La proxima bestia se encuentra en una ciudad\n pasando el lugar donde derrotaste al limo azul";
+        dialogues[7] = "Buena suerte.";
+        dialogues[8] = "Bien hecho. \n Has derrotado a otro adversario.";
+        dialogues[9] = "Solo queda uno mas, pero este sera\n el combate mas peligroso.";
+        dialogues[10] = "Se encuentra en un castillo al este de aqui.";
+        dialogues[11] = "Alli deberas enfrentarte a una vision\n de ti mismo, ten cuidado.\n Y buena suerte";
     }
     public void setAction() {
         actionLockCounter++;
@@ -52,5 +60,8 @@ public class NPC_OldMan extends Entity {
     }
     public void speak() {
         super.speak();
+    }
+    public void speak1Boss(){
+        super.speak1Boss();
     }
 }
