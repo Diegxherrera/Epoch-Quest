@@ -160,11 +160,12 @@ public class KeyHandler implements KeyListener {
                         magicSelected = true;
                         break;
                     case 3:
+                        gp.player.worldY -= gp.tileSize;
                         gp.gameState = gp.playState;
-                            entity.invincible = true;
-                            entity.actionLockCounter++;
-                            if (entity.actionLockCounter == 60) {
-                                entity.invincible = false;
+                            gp.player.invincible = true;
+                            gp.player.actionLockCounter++;
+                            if (gp.player.actionLockCounter == 60) {
+                                gp.player.invincible = false;
                         }
                         break;
                 }

@@ -210,7 +210,7 @@ public class Player extends Entity {
             invincible = true;
             invincibleCounter++;
         }
-        if (monsterIndex != 999 && esBoss == true ){
+        if (monsterIndex != 999 && esBoss){
             gp.gameState = gp.battleState;
             invincibleCounter ++;
         }
@@ -226,18 +226,17 @@ public class Player extends Entity {
     public void decreaseLife(int amount){
         life -= amount;
     }
-//    public void characterDeath(){
-//        if (life <= 0){
-//            gp.gameState = gp.deadState;
-//            System.out.println("Game state: "+ gp.gameState);
-//        }
-//    }
+    public void characterDeath(){
+        if (life <= 0){
+            gp.gameState = gp.deadState;
+        }
+    }
 public boolean isDead() {
     return life <= 0;
 }
     private void handleDeath(){
         gp.gameState = gp.deadState;
-        System.out.println("El jugador ha muerto, que pelele");
+        System.out.println("El jugador ha muerto");
 
     }
 

@@ -19,12 +19,13 @@ public class Combat {
     public void ataqueJugadorASlime() {
         if (gp.monster[10].life > 0) {
             int damage = gp.player.attack - gp.monster[10].defense;
+            System.out.println("Juegador ataca al slime - Daño calculado: " + damage);
             realizarAtaque(damage, gp.monster[10], "Jugador");
         }
     }
 
     public void ataqueSlime() {
-        if (!gp.monster[10].dead) {
+        if (gp.monster[10].life > 0 && gp.player.life > 0) {
             int damage = gp.monster[10].getAttack() - gp.player.defense;
             System.out.println("Slime ataca al jugador - Daño calculado: " + damage);
             realizarAtaque(damage, gp.player, "Slime");
@@ -56,36 +57,51 @@ public class Combat {
 
 
     public void ataqueJugadorAGoblin(){
-        gp.monster[11].life -= gp.player.attack - gp.monster[10].defense;
-    }
+        if (gp.monster[11].life > 0) {
+            int damage = gp.player.attack - gp.monster[11].defense;
+            System.out.println("Juegador ataca al slime - Daño calculado: " + damage);
+            realizarAtaque(damage, gp.monster[11], "Jugador");
+        }    }
     public void ataqueJugadorARedBoy(){
-        gp.monster[12].life -= gp.player.attack - gp.monster[10].defense;
-    }
-
-
+        if (gp.monster[12].life > 0) {
+            int damage = gp.player.attack - gp.monster[12].defense;
+            System.out.println("Juegador ataca al slime - Daño calculado: " + damage);
+            realizarAtaque(damage, gp.monster[10], "Jugador");
+        }    }
     public void ataqueGoblin(){
-        gp.player.life -= gp.monster[11].attack - gp.player.defense;
+        if (gp.monster[11].life > 0 && gp.player.life > 0) {
+            int damage = gp.monster[11].getAttack() - gp.player.defense;
+            System.out.println("Slime ataca al jugador - Daño calculado: " + damage);
+            realizarAtaque(damage, gp.player, "Slime");
 
+            // Verificar si el jugador ha muerto después del ataque del monstruo
+            if (gp.player.dead) {
+                detenerCombate();
+            }
+        }
     }
     public void ataqueRedBoy(){
-        gp.player.life -= gp.monster[12].attack - gp.player.defense;
+        if (gp.monster[12].life > 0 && gp.player.life > 0) {
+            int damage = gp.monster[12].getAttack() - gp.player.defense;
+            System.out.println("Slime ataca al jugador - Daño calculado: " + damage);
+            realizarAtaque(damage, gp.player, "Slime");
 
+            // Verificar si el jugador ha muerto después del ataque del monstruo
+            if (gp.player.dead) {
+                detenerCombate();
+            }
+        }
     }
+
     public void startCombatTimer() {
         combatTimer.start();
     }
-
     public void stopCombatTimer() {
         combatTimer.stop();
     }
-    public void stopCombat() {
-        // Detener el temporizador cuando el combate ha terminado
-        stopCombatTimer();
-        // También podrías realizar otras acciones de limpieza si es necesario
-    }
-
 
     public void turnoCombate() {
+        int i;
         if (playerTurn) {
             if (gp.keyH.enterPressed) {
                 gp.keyH.enterPressed = false; // Reiniciar la bandera de Enter
@@ -110,11 +126,9 @@ public class Combat {
         if (gp.player.dead || gp.monster[10].dead) {
             detenerCombate();
         }
-
         // Repintar la interfaz después de cada turno
         gp.repaint();
     }
-
 
     private void detenerCombate() {
         // Detener el temporizador cuando el combate ha terminado
@@ -124,7 +138,9 @@ public class Combat {
         limpiarCombate();
 
         // Cerrar el menú de batalla solo si el monstruo está vivo
-        if (!gp.monster[10].dead) {
+        if (gp.monster[10].dead) {
+            gp.ui.battleMenuVisible = true;
+        }if (!gp.monster[10].dead) {
             gp.ui.battleMenuVisible = false;
         }
 
@@ -140,8 +156,6 @@ public class Combat {
         }
     }
 
-
-
     // Método para realizar limpieza adicional
     private void limpiarCombate() {
         // Reiniciar la vida de los personajes si no están muertos
@@ -155,8 +169,4 @@ public class Combat {
 
         // También puedes realizar otras acciones de limpieza si es necesario
     }
-
-
-
-
 }

@@ -24,19 +24,33 @@ public class MON_Goblin extends Entity {
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         esBoss = true;
+        dead = false;
+        if (isDead()){
+            handleDeath();
+        }
         getImage();
 
 
     }
+    public boolean isDead(){
+        if (life <= 0){
+            return dead = true;
+        }
+        return dead;
+    }
+    private void handleDeath(){
+        gp.gameState = gp.playState;
+        System.out.println("Has derrotado al enemigo, bien hecho.");
+
+    }
     public int getAttack(){
-        return attack = strength * (int) (Math.random()*3+1);
+        return attack = strength * (int) (Math.random()*3+2);
     }
     public int getDefense(){
-        return defense = dexterity * (int) (Math.random()*3+1);
+        return defense = dexterity * (int) (Math.random()*3+2);
     }
 
     public void getImage(){
-        System.out.println("Loading images for GreenSlime");
 
         up1 = getImage("/monster/spr_goblin_walk_3.png", gp.tileSize, gp.tileSize);
         up2 = getImage("/monster/spr_goblin_walk_0.png", gp.tileSize, gp.tileSize);

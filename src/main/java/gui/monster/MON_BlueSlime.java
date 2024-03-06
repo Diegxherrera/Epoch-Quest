@@ -50,7 +50,6 @@ public class MON_BlueSlime extends Entity {
         return defense = dexterity * (int) (Math.random()*3+2);
     }
     public void getImage(){
-        System.out.println("Loading images for GreenSlime");
 
         up1 = getImage("/monster/spr_Blue_slime_idle_0.png", gp.tileSize, gp.tileSize);
         up2 = getImage("/monster/spr_Blue_slime_idle_2.png", gp.tileSize, gp.tileSize);
