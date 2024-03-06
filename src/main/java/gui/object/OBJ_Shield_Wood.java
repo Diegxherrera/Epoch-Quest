@@ -9,6 +9,6 @@ public class OBJ_Shield_Wood extends Entity {
 
          name = "Wood Shield";
          down1 = getImage("objects/shield_wood.png", gp.tileSize, gp.tileSize);
-         defenseValue = 2;
+         defenseValue = (int) (Math.random() * 2+1);
     }
 }

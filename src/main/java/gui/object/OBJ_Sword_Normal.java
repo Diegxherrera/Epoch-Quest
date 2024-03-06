@@ -10,6 +10,6 @@ public class OBJ_Sword_Normal extends Entity {
 
         name = "Normal Sword";
         down1 = getImage("/objects/sword_normal.png", gp.tileSize, gp.tileSize);
-        attackValue = 2;
+        attackValue = (int) (Math.random() * 2+1) ;
     }
 }
